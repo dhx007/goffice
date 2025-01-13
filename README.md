@@ -27,8 +27,7 @@ Requires **go1.8+**, builds are tested with 1.8, 1.9 and tip.
 
 ## Installation ##
     
-    go get github.com/unidoc/goffice/
-    go build -i github.com/unidoc/goffice/...
+    go get github.com/dhx007/goffice@latest
 
 ## Raw Types ##
 
