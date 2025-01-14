@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package common_test
 
 import (
 	"fmt"
 	"testing"
 
-	"goffice/common"
+	"github.com/dhx007/goffice/common"
 )
 
 func TestNewAppDefaultProperties(t *testing.T) {
@@ -19,7 +12,7 @@ func TestNewAppDefaultProperties(t *testing.T) {
 	if ap.X() == nil {
 		t.Errorf("expected non-nil internal element")
 	}
-	if got := ap.Application(); got != "goffice" {
+	if got := ap.Application(); got != "github.com/dhx007/goffice" {
 		t.Errorf("unexpected application: %s", got)
 	}
 

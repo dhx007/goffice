@@ -1,16 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // TableProperties are the properties for a table within a document
@@ -35,7 +28,7 @@ func (t TableProperties) SetCellSpacingPercent(pct float64) {
 	t.x.TblCellSpacing.TypeAttr = wml.ST_TblWidthPct
 	t.x.TblCellSpacing.WAttr = &wml.ST_MeasurementOrPercent{}
 	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
-	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(pct * 50))
+	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(pct * 50))
 }
 
 // SetCellSpacing sets the cell spacing within a table.
@@ -44,7 +37,7 @@ func (t TableProperties) SetCellSpacing(m measurement.Distance) {
 	t.x.TblCellSpacing.TypeAttr = wml.ST_TblWidthDxa
 	t.x.TblCellSpacing.WAttr = &wml.ST_MeasurementOrPercent{}
 	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
-	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(m / measurement.Dxa))
+	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(m / measurement.Dxa))
 }
 
 // SetWidthAuto sets the the table width to automatic.
@@ -60,7 +53,7 @@ func (t TableProperties) SetWidthPercent(pct float64) {
 	t.x.TblW.WAttr = &wml.ST_MeasurementOrPercent{}
 	t.x.TblW.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
 	// percent value is measured in 1/50'th of a percent
-	t.x.TblW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(pct * 50))
+	t.x.TblW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(pct * 50))
 }
 
 // SetLayout controls the table layout. wml.ST_TblLayoutTypeAutofit corresponds
@@ -92,7 +85,7 @@ func (t TableProperties) SetWidth(d measurement.Distance) {
 	t.x.TblW.TypeAttr = wml.ST_TblWidthDxa
 	t.x.TblW.WAttr = &wml.ST_MeasurementOrPercent{}
 	t.x.TblW.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
-	t.x.TblW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(d / measurement.Twips))
+	t.x.TblW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(d / measurement.Twips))
 }
 
 // SetStyle sets the table style name.

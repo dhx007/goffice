@@ -1,15 +1,14 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
 	"log"
 
-	"goffice/schema/soo/dml"
+	"github.com/dhx007/goffice/schema/soo/dml"
 
-	"goffice/color"
-	"goffice/common"
-	"goffice/measurement"
-	"goffice/presentation"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/presentation"
 )
 
 const lorem = "Lorem ipsum dolor sit amet."

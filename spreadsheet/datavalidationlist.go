@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
 	"strings"
 
-	"goffice"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // DataValidationList is just a view on a DataValidation configured as a list.
@@ -24,12 +17,12 @@ type DataValidationList struct {
 
 // SetRange sets the range that contains the possible values. This is incompatible with SetValues.
 func (d DataValidationList) SetRange(cellRange string) {
-	d.x.Formula1 = unioffice.String(cellRange)
-	d.x.Formula2 = unioffice.String("0")
+	d.x.Formula1 = goffice.String(cellRange)
+	d.x.Formula2 = goffice.String("0")
 }
 
 // SetValues sets the possible values. This is incompatible with SetRange.
 func (d DataValidationList) SetValues(values []string) {
-	d.x.Formula1 = unioffice.String("\"" + strings.Join(values, ",") + "\"")
-	d.x.Formula2 = unioffice.String("0")
+	d.x.Formula1 = goffice.String("\"" + strings.Join(values, ",") + "\"")
+	d.x.Formula2 = goffice.String("0")
 }

@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // NumberingLevel is the definition for numbering for a particular level within
@@ -37,7 +30,7 @@ func (n NumberingLevel) SetText(t string) {
 		n.x.LvlText = nil
 	} else {
 		n.x.LvlText = wml.NewCT_LevelText()
-		n.x.LvlText.ValAttr = unioffice.String(t)
+		n.x.LvlText.ValAttr = goffice.String(t)
 	}
 }
 

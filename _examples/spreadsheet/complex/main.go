@@ -1,4 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
@@ -6,12 +5,12 @@ import (
 	"log"
 	"math/rand"
 
-	"goffice/chart"
-	"goffice/color"
-	"goffice/measurement"
-	"goffice/spreadsheet"
+	"github.com/dhx007/goffice/chart"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/spreadsheet"
 
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 func main() {

@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // Settings controls the document settings.
@@ -22,9 +15,9 @@ func NewSettings() Settings {
 	s := wml.NewSettings()
 	s.Compat = wml.NewCT_Compat()
 	stng := wml.NewCT_CompatSetting()
-	stng.NameAttr = unioffice.String("compatibilityMode")
-	stng.UriAttr = unioffice.String("http://schemas.microsoft.com/office/word")
-	stng.ValAttr = unioffice.String("15")
+	stng.NameAttr = goffice.String("compatibilityMode")
+	stng.UriAttr = goffice.String("http://schemas.microsoft.com/office/word")
+	stng.ValAttr = goffice.String("15")
 	s.Compat.CompatSetting = append(s.Compat.CompatSetting, stng)
 	return Settings{s}
 }

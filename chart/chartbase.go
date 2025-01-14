@@ -1,13 +1,6 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package chart
 
-import "goffice/color"
+import "github.com/dhx007/goffice/color"
 
 var defaultColors = []color.Color{color.RGB(0x33, 0x66, 0xcc), color.RGB(0xDC, 0x39, 0x12), color.RGB(0xFF, 0x99, 0x00),
 	color.RGB(0x10, 0x96, 0x18), color.RGB(0x99, 0x00, 0x99), color.RGB(0x3B, 0x3E, 0xAC), color.RGB(0x00, 0x99, 0xC6),

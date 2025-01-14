@@ -1,4 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
@@ -6,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"goffice/document"
+	"github.com/dhx007/goffice/document"
 	ole "github.com/go-ole/go-ole"
 	"github.com/go-ole/go-ole/oleutil"
 )

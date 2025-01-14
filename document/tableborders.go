@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/measurement"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // TableBorders allows manipulation of borders on a table.
@@ -34,7 +27,7 @@ func setBorder(brd *wml.CT_Border, t wml.ST_Border, c color.Color, thickness mea
 	}
 	if thickness != measurement.Zero {
 		// sz here is in 1/8'th points, the range is 0.25 to 12 pts
-		brd.SzAttr = unioffice.Uint64(uint64(thickness / measurement.Point * 8))
+		brd.SzAttr = goffice.Uint64(uint64(thickness / measurement.Point * 8))
 	}
 }
 

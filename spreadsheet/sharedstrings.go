@@ -1,16 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
 package spreadsheet
 
 import (
 	"fmt"
 
-	"goffice"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // SharedStrings is a shared strings table, where string data can be placed
@@ -37,11 +31,11 @@ func (s SharedStrings) AddString(v string) int {
 		return id
 	}
 	rst := sml.NewCT_Rst()
-	rst.T = unioffice.String(v)
+	rst.T = goffice.String(v)
 	s.x.Si = append(s.x.Si, rst)
 	id := len(s.x.Si) - 1
 	s.cachedIDs[v] = id
-	s.x.CountAttr = unioffice.Uint32(uint32(len(s.x.Si)))
+	s.x.CountAttr = goffice.Uint32(uint32(len(s.x.Si)))
 	s.x.UniqueCountAttr = s.x.CountAttr
 	return id
 }

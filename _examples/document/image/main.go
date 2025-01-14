@@ -1,15 +1,14 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
 	"io/ioutil"
 	"log"
 
-	"goffice/common"
-	"goffice/document"
-	"goffice/measurement"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/document"
+	"github.com/dhx007/goffice/measurement"
 
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 var lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lobortis, lectus dictum feugiat tempus, sem neque finibus enim, sed eleifend sem nunc ac diam. Vestibulum tempus sagittis elementum`

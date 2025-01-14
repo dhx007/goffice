@@ -1,15 +1,15 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
+
 // This example demonstrates flattening all formulas from an input Excel file and outputs the flattened values to a new xlsx.
 
 import (
-	"log"
 	"fmt"
+	"log"
 	"runtime"
 	"time"
 
-	"goffice/spreadsheet"
-	"goffice/spreadsheet/formula"
+	"github.com/dhx007/goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet/formula"
 )
 
 func main() {
@@ -52,7 +52,7 @@ func main() {
 		}
 	}
 	finish := time.Now().UnixNano()
-	fmt.Printf("total time: %d ns\n", finish - start)
+	fmt.Printf("total time: %d ns\n", finish-start)
 	PrintMemUsage()
 
 	ss.SaveToFile("values.xlsx")

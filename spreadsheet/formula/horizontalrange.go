@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package formula
-
-import "goffice/spreadsheet/update"
 
 import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/dhx007/goffice/spreadsheet/update"
 )
 
 // HorizontalRange is a range expression that when evaluated returns a list of Results from references like 1:4 (all cells from rows 1 to 4).

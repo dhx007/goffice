@@ -1,16 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // Column represents a column within a sheet. It's only used for formatting
@@ -26,12 +19,12 @@ func (c Column) X() *sml.CT_Col {
 
 // SetWidth controls the width of a column.
 func (c Column) SetWidth(w measurement.Distance) {
-	c.x.WidthAttr = unioffice.Float64(float64(w / measurement.Character))
+	c.x.WidthAttr = goffice.Float64(float64(w / measurement.Character))
 }
 
 // SetStyle sets the cell style for an entire column.
 func (c Column) SetStyle(cs CellStyle) {
-	c.x.StyleAttr = unioffice.Uint32(cs.Index())
+	c.x.StyleAttr = goffice.Uint32(cs.Index())
 }
 
 // SetHidden controls the visibility of a column.
@@ -39,6 +32,6 @@ func (c Column) SetHidden(b bool) {
 	if !b {
 		c.x.HiddenAttr = nil
 	} else {
-		c.x.HiddenAttr = unioffice.Bool(true)
+		c.x.HiddenAttr = goffice.Bool(true)
 	}
 }

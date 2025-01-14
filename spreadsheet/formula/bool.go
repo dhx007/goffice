@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package formula
 
 import (
 	"strconv"
 
-	"goffice"
-	"goffice/spreadsheet/update"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/spreadsheet/update"
 )
 
 // Bool is a boolean expression.
@@ -23,7 +16,7 @@ type Bool struct {
 func NewBool(v string) Expression {
 	b, err := strconv.ParseBool(v)
 	if err != nil {
-		unioffice.Log("error parsing formula bool %s: %s", v, err)
+		goffice.Log("error parsing formula bool %s: %s", v, err)
 	}
 	return Bool{b}
 }

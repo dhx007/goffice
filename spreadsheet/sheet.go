@@ -1,10 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
@@ -14,14 +7,14 @@ import (
 	"sort"
 	"strings"
 
-	"goffice/spreadsheet/formula"
-	"goffice/spreadsheet/reference"
-	"goffice/spreadsheet/update"
+	"github.com/dhx007/goffice/spreadsheet/formula"
+	"github.com/dhx007/goffice/spreadsheet/reference"
+	"github.com/dhx007/goffice/spreadsheet/update"
 
-	"goffice"
-	"goffice/common"
-	"goffice/schema/soo/sml"
-	"goffice/vmldrawing"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/schema/soo/sml"
+	"github.com/dhx007/goffice/vmldrawing"
 )
 
 // Sheet is a single sheet within a workbook.
@@ -73,7 +66,7 @@ func (s *Sheet) Row(rowNum uint32) Row {
 func (s *Sheet) Cell(cellRef string) Cell {
 	cref, err := reference.ParseCellReference(cellRef)
 	if err != nil {
-		unioffice.Log("error parsing cell reference: %s", err)
+		goffice.Log("error parsing cell reference: %s", err)
 		return s.AddRow().AddCell()
 	}
 	return s.Row(cref.RowIdx).Cell(cref.Column)
@@ -84,7 +77,7 @@ func (s *Sheet) Cell(cellRef string) Cell {
 // Row instead which creates a new row or returns an existing row.
 func (s *Sheet) AddNumberedRow(rowNum uint32) Row {
 	r := sml.NewCT_Row()
-	r.RAttr = unioffice.Uint32(rowNum)
+	r.RAttr = goffice.Uint32(rowNum)
 	s.x.SheetData.Row = append(s.x.SheetData.Row, r)
 
 	// Excel wants the rows to be sorted
@@ -107,7 +100,7 @@ func (s *Sheet) AddNumberedRow(rowNum uint32) Row {
 // rows and not skipping any.
 func (s *Sheet) addNumberedRowFast(rowNum uint32) Row {
 	r := sml.NewCT_Row()
-	r.RAttr = unioffice.Uint32(rowNum)
+	r.RAttr = goffice.Uint32(rowNum)
 	s.x.SheetData.Row = append(s.x.SheetData.Row, r)
 	return Row{s.w, s, r}
 }
@@ -150,7 +143,7 @@ func (s *Sheet) InsertRow(rowNum int) Row {
 					continue
 				}
 				cref.RowIdx++
-				c.x.RAttr = unioffice.String(cref.String())
+				c.x.RAttr = goffice.String(cref.String())
 			}
 		}
 	}
@@ -292,7 +285,7 @@ func (s *Sheet) SetDrawing(d Drawing) {
 	var drawingID string
 	for i, dr := range d.wb.drawings {
 		if dr == d.x {
-			rel := rel.AddAutoRelationship(unioffice.DocTypeSpreadsheet, unioffice.WorksheetType, i+1, unioffice.DrawingType)
+			rel := rel.AddAutoRelationship(goffice.DocTypeSpreadsheet, goffice.WorksheetType, i+1, goffice.DrawingType)
 			drawingID = rel.ID()
 			break
 		}
@@ -357,7 +350,7 @@ func (s *Sheet) SetAutoFilter(rangeRef string) {
 	rangeRef = strings.Replace(rangeRef, "$", "", -1)
 
 	s.x.AutoFilter = sml.NewCT_AutoFilter()
-	s.x.AutoFilter.RefAttr = unioffice.String(rangeRef)
+	s.x.AutoFilter.RefAttr = goffice.String(rangeRef)
 	sn := "'" + s.Name() + "'!"
 	var sdn DefinedName
 
@@ -398,7 +391,7 @@ func (s *Sheet) AddMergedCells(fromRef, toRef string) MergedCell {
 	merge.RefAttr = fmt.Sprintf("%s:%s", fromRef, toRef)
 
 	s.x.MergeCells.MergeCell = append(s.x.MergeCells.MergeCell, merge)
-	s.x.MergeCells.CountAttr = unioffice.Uint32(uint32(len(s.x.MergeCells.MergeCell)))
+	s.x.MergeCells.CountAttr = goffice.Uint32(uint32(len(s.x.MergeCells.MergeCell)))
 	return MergedCell{s.w, s, merge}
 }
 
@@ -508,12 +501,12 @@ func (s *Sheet) Comments() Comments {
 		if wks == s.x {
 			if s.w.comments[i] == nil {
 				s.w.comments[i] = sml.NewComments()
-				s.w.xwsRels[i].AddAutoRelationship(unioffice.DocTypeSpreadsheet, unioffice.WorksheetType, i+1, unioffice.CommentsType)
-				s.w.ContentTypes.AddOverride(unioffice.AbsoluteFilename(unioffice.DocTypeSpreadsheet, unioffice.CommentsType, i+1), unioffice.CommentsContentType)
+				s.w.xwsRels[i].AddAutoRelationship(goffice.DocTypeSpreadsheet, goffice.WorksheetType, i+1, goffice.CommentsType)
+				s.w.ContentTypes.AddOverride(goffice.AbsoluteFilename(goffice.DocTypeSpreadsheet, goffice.CommentsType, i+1), goffice.CommentsContentType)
 			}
 			if len(s.w.vmlDrawings) == 0 {
 				s.w.vmlDrawings = append(s.w.vmlDrawings, vmldrawing.NewCommentDrawing())
-				vmlID := s.w.xwsRels[i].AddAutoRelationship(unioffice.DocTypeSpreadsheet, unioffice.WorksheetType, 1, unioffice.VMLDrawingType)
+				vmlID := s.w.xwsRels[i].AddAutoRelationship(goffice.DocTypeSpreadsheet, goffice.WorksheetType, 1, goffice.VMLDrawingType)
 				if s.x.LegacyDrawing == nil {
 					s.x.LegacyDrawing = sml.NewCT_LegacyDrawing()
 				}
@@ -523,7 +516,7 @@ func (s *Sheet) Comments() Comments {
 		}
 	}
 
-	unioffice.Log("attempted to access comments for non-existent sheet")
+	goffice.Log("attempted to access comments for non-existent sheet")
 	// should never occur
 	return Comments{}
 }
@@ -626,9 +619,9 @@ func (s *Sheet) AddDataValidation() DataValidation {
 		s.x.DataValidations = sml.NewCT_DataValidations()
 	}
 	dv := sml.NewCT_DataValidation()
-	dv.ShowErrorMessageAttr = unioffice.Bool(true)
+	dv.ShowErrorMessageAttr = goffice.Bool(true)
 	s.x.DataValidations.DataValidation = append(s.x.DataValidations.DataValidation, dv)
-	s.x.DataValidations.CountAttr = unioffice.Uint32(uint32(len(s.x.DataValidations.DataValidation)))
+	s.x.DataValidations.CountAttr = goffice.Uint32(uint32(len(s.x.DataValidations.DataValidation)))
 	return DataValidation{dv}
 }
 
@@ -668,7 +661,7 @@ func (s *Sheet) RecalculateFormulas() {
 				}
 				res := ev.Eval(ctx, formStr).AsString()
 				if res.Type == formula.ResultTypeError {
-					unioffice.Log("error evaulating formula %s: %s", formStr, res.ErrorMessage)
+					goffice.Log("error evaulating formula %s: %s", formStr, res.ErrorMessage)
 					c.X().V = nil
 				} else {
 					if res.Type == formula.ResultTypeNumber {
@@ -676,7 +669,7 @@ func (s *Sheet) RecalculateFormulas() {
 					} else {
 						c.X().TAttr = sml.ST_CellTypeInlineStr
 					}
-					c.X().V = unioffice.String(res.Value())
+					c.X().V = goffice.String(res.Value())
 
 					// the formula is of type array, so if the result is also an
 					// array we need to expand the array out into cells
@@ -721,7 +714,7 @@ func (s *Sheet) setShared(origin string, from, to reference.CellReference, formu
 			} else {
 				c.X().TAttr = sml.ST_CellTypeInlineStr
 			}
-			c.X().V = unioffice.String(res.Value())
+			c.X().V = goffice.String(res.Value())
 		}
 	}
 	_ = ev
@@ -1105,7 +1098,7 @@ func (s *Sheet) getAllCellsInFormulaArrays(isRow bool) (map[string]bool, error) 
 				if c.X().F.TAttr == sml.ST_CellFormulaTypeArray {
 					res := ev.Eval(ctx, formStr).AsString()
 					if res.Type == formula.ResultTypeError {
-						unioffice.Log("error evaulating formula %s: %s", formStr, res.ErrorMessage)
+						goffice.Log("error evaulating formula %s: %s", formStr, res.ErrorMessage)
 						c.X().V = nil
 					}
 					if res.Type == formula.ResultTypeArray {

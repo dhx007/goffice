@@ -1,10 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package presentation
 
 import (
@@ -12,7 +5,6 @@ import (
 	"bytes"
 	"encoding/xml"
 	"errors"
-	"flag"
 	"fmt"
 	"image"
 	"image/jpeg"
@@ -21,17 +13,15 @@ import (
 	"os"
 	"path"
 
-	"goffice"
-	"goffice/color"
-	"goffice/common"
-	"goffice/common/license"
-	"goffice/measurement"
-	"goffice/schema/soo/dml"
-	crt "goffice/schema/soo/dml/chart"
-	"goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/pkg/relationships"
-	"goffice/schema/soo/pml"
-	"goffice/zippkg"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
+	"github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/pkg/relationships"
+	"github.com/dhx007/goffice/schema/soo/pml"
+	"github.com/dhx007/goffice/zippkg"
 )
 
 // Presentation is the a presentation base document.
@@ -54,7 +44,7 @@ type Presentation struct {
 	charts                 []*crt.ChartSpace
 	handoutMaster          []*pml.HandoutMaster
 	notesMaster            []*pml.NotesMaster
-	customXML              []*unioffice.XSDAny
+	customXML              []*goffice.XSDAny
 	imagesMap              map[string]string // mapping input images paths to output ones
 }
 
@@ -104,47 +94,47 @@ func New() *Presentation {
 
 	p.masters = append(p.masters, m)
 
-	smFn := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideMasterType, 1)
-	p.ContentTypes.AddOverride(smFn, unioffice.SlideMasterContentType)
+	smFn := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideMasterType, 1)
+	p.ContentTypes.AddOverride(smFn, goffice.SlideMasterContentType)
 
-	mrelID := p.prels.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.OfficeDocumentType,
-		1, unioffice.SlideMasterType)
+	mrelID := p.prels.AddAutoRelationship(goffice.DocTypePresentation, goffice.OfficeDocumentType,
+		1, goffice.SlideMasterType)
 	smid := pml.NewCT_SlideMasterIdListEntry()
-	smid.IdAttr = unioffice.Uint32(2147483648)
+	smid.IdAttr = goffice.Uint32(2147483648)
 	smid.RIdAttr = mrelID.ID()
 	p.x.SldMasterIdLst.SldMasterId = append(p.x.SldMasterIdLst.SldMasterId, smid)
 	mrel := common.NewRelationships()
 	p.masterRels = append(p.masterRels, mrel)
 
 	ls := pml.NewSldLayout()
-	lrid := mrel.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.SlideMasterType, 1, unioffice.SlideLayoutType)
-	slfn := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideLayoutType, 1)
-	p.ContentTypes.AddOverride(slfn, unioffice.SlideLayoutContentType)
-	mrel.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.SlideMasterType, 1, unioffice.ThemeType)
+	lrid := mrel.AddAutoRelationship(goffice.DocTypePresentation, goffice.SlideMasterType, 1, goffice.SlideLayoutType)
+	slfn := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideLayoutType, 1)
+	p.ContentTypes.AddOverride(slfn, goffice.SlideLayoutContentType)
+	mrel.AddAutoRelationship(goffice.DocTypePresentation, goffice.SlideMasterType, 1, goffice.ThemeType)
 	p.layouts = append(p.layouts, ls)
 
 	m.SldLayoutIdLst = pml.NewCT_SlideLayoutIdList()
 	lid := pml.NewCT_SlideLayoutIdListEntry()
-	lid.IdAttr = unioffice.Uint32(2147483649)
+	lid.IdAttr = goffice.Uint32(2147483649)
 	lid.RIdAttr = lrid.ID()
 	m.SldLayoutIdLst.SldLayoutId = append(m.SldLayoutIdLst.SldLayoutId, lid)
 
 	lrel := common.NewRelationships()
 	p.layoutRels = append(p.layoutRels, lrel)
-	lrel.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.SlideType, 1, unioffice.SlideMasterType)
+	lrel.AddAutoRelationship(goffice.DocTypePresentation, goffice.SlideType, 1, goffice.SlideMasterType)
 	p.x.NotesSz.CxAttr = 6858000
 	p.x.NotesSz.CyAttr = 9144000
 
 	thm := dml.NewTheme()
 
-	thm.NameAttr = unioffice.String("gooxml Theme")
+	thm.NameAttr = goffice.String("gooxml Theme")
 	thm.ThemeElements.ClrScheme.NameAttr = "Office"
 	thm.ThemeElements.ClrScheme.Dk1.SysClr = dml.NewCT_SystemColor()
-	thm.ThemeElements.ClrScheme.Dk1.SysClr.LastClrAttr = unioffice.String("000000")
+	thm.ThemeElements.ClrScheme.Dk1.SysClr.LastClrAttr = goffice.String("000000")
 	thm.ThemeElements.ClrScheme.Dk1.SysClr.ValAttr = dml.ST_SystemColorValWindowText
 
 	thm.ThemeElements.ClrScheme.Lt1.SysClr = dml.NewCT_SystemColor()
-	thm.ThemeElements.ClrScheme.Lt1.SysClr.LastClrAttr = unioffice.String("ffffff")
+	thm.ThemeElements.ClrScheme.Lt1.SysClr.LastClrAttr = goffice.String("ffffff")
 	thm.ThemeElements.ClrScheme.Lt1.SysClr.ValAttr = dml.ST_SystemColorValWindow
 
 	thm.ThemeElements.ClrScheme.Dk2.SrgbClr = dml.NewCT_SRgbColor()
@@ -181,7 +171,7 @@ func New() *Presentation {
 	thm.ThemeElements.FontScheme.MajorFont.Latin.TypefaceAttr = "Calibri Light"
 	thm.ThemeElements.FontScheme.MinorFont.Latin.TypefaceAttr = "Calibri"
 
-	thm.ThemeElements.FmtScheme.NameAttr = unioffice.String("Office")
+	thm.ThemeElements.FmtScheme.NameAttr = goffice.String("Office")
 	// fills
 	fp := dml.NewEG_FillProperties()
 	thm.ThemeElements.FmtScheme.FillStyleLst.EG_FillProperties = append(thm.ThemeElements.FmtScheme.FillStyleLst.EG_FillProperties, fp)
@@ -194,26 +184,26 @@ func New() *Presentation {
 	thm.ThemeElements.FmtScheme.FillStyleLst.EG_FillProperties = append(thm.ThemeElements.FmtScheme.FillStyleLst.EG_FillProperties, fp)
 	// add it twice so OSX word doesn't choke
 	thm.ThemeElements.FmtScheme.FillStyleLst.EG_FillProperties = append(thm.ThemeElements.FmtScheme.FillStyleLst.EG_FillProperties, fp)
-	fp.GradFill = &dml.CT_GradientFillProperties{RotWithShapeAttr: unioffice.Bool(true),
+	fp.GradFill = &dml.CT_GradientFillProperties{RotWithShapeAttr: goffice.Bool(true),
 		GsLst: &dml.CT_GradientStopList{},
 		Lin:   &dml.CT_LinearShadeProperties{}}
-	fp.GradFill.Lin.AngAttr = unioffice.Int32(5400000)
-	fp.GradFill.Lin.ScaledAttr = unioffice.Bool(false)
+	fp.GradFill.Lin.AngAttr = goffice.Int32(5400000)
+	fp.GradFill.Lin.ScaledAttr = goffice.Bool(false)
 
 	gs := dml.NewCT_GradientStop()
-	gs.PosAttr.ST_PositiveFixedPercentageDecimal = unioffice.Int32(0)
+	gs.PosAttr.ST_PositiveFixedPercentageDecimal = goffice.Int32(0)
 	gs.SchemeClr = &dml.CT_SchemeColor{ValAttr: dml.ST_SchemeColorValPhClr}
 	fp.GradFill.GsLst.Gs = append(fp.GradFill.GsLst.Gs, gs)
 
 	gs = dml.NewCT_GradientStop()
-	gs.PosAttr.ST_PositiveFixedPercentageDecimal = unioffice.Int32(50000)
+	gs.PosAttr.ST_PositiveFixedPercentageDecimal = goffice.Int32(50000)
 	gs.SchemeClr = &dml.CT_SchemeColor{ValAttr: dml.ST_SchemeColorValPhClr}
 	fp.GradFill.GsLst.Gs = append(fp.GradFill.GsLst.Gs, gs)
 
 	thm.ThemeElements.FmtScheme.LnStyleLst = dml.NewCT_LineStyleList()
 	for i := 0; i < 3; i++ {
 		lp := dml.NewCT_LineProperties()
-		lp.WAttr = unioffice.Int32(int32(6350 * (i + 1)))
+		lp.WAttr = goffice.Int32(int32(6350 * (i + 1)))
 		lp.CapAttr = dml.ST_LineCapFlat
 		lp.CmpdAttr = dml.ST_CompoundLineSng
 		lp.AlgnAttr = dml.ST_PenAlignmentCtr
@@ -239,9 +229,9 @@ func New() *Presentation {
 		fp)
 
 	p.themes = append(p.themes, thm)
-	themeFn := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.ThemeType, 1)
-	p.ContentTypes.AddOverride(themeFn, unioffice.ThemeContentType)
-	p.prels.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.OfficeDocumentType, 1, unioffice.ThemeType)
+	themeFn := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.ThemeType, 1)
+	p.ContentTypes.AddOverride(themeFn, goffice.ThemeContentType)
+	p.prels.AddAutoRelationship(goffice.DocTypePresentation, goffice.OfficeDocumentType, 1, goffice.ThemeType)
 
 	thmRel := common.NewRelationships()
 	p.themeRels = append(p.themeRels, thmRel)
@@ -274,8 +264,8 @@ func (p *Presentation) AddSlide() Slide {
 	slide.CSld.SpTree.NvGrpSpPr.CNvPr.IdAttr = 1
 	slide.CSld.SpTree.GrpSpPr.Xfrm = dml.NewCT_GroupTransform2D()
 	slide.CSld.SpTree.GrpSpPr.Xfrm.Off = dml.NewCT_Point2D()
-	slide.CSld.SpTree.GrpSpPr.Xfrm.Off.XAttr.ST_CoordinateUnqualified = unioffice.Int64(0)
-	slide.CSld.SpTree.GrpSpPr.Xfrm.Off.YAttr.ST_CoordinateUnqualified = unioffice.Int64(0)
+	slide.CSld.SpTree.GrpSpPr.Xfrm.Off.XAttr.ST_CoordinateUnqualified = goffice.Int64(0)
+	slide.CSld.SpTree.GrpSpPr.Xfrm.Off.YAttr.ST_CoordinateUnqualified = goffice.Int64(0)
 	slide.CSld.SpTree.GrpSpPr.Xfrm.Ext = dml.NewCT_PositiveSize2D()
 	slide.CSld.SpTree.GrpSpPr.Xfrm.Ext.CxAttr = int64(0 * measurement.Point)
 	slide.CSld.SpTree.GrpSpPr.Xfrm.Ext.CyAttr = int64(0 * measurement.Point)
@@ -283,18 +273,18 @@ func (p *Presentation) AddSlide() Slide {
 	slide.CSld.SpTree.GrpSpPr.Xfrm.ChExt = slide.CSld.SpTree.GrpSpPr.Xfrm.Ext
 
 	p.slides = append(p.slides, slide)
-	srelID := p.prels.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.OfficeDocumentType,
-		len(p.slides), unioffice.SlideType)
+	srelID := p.prels.AddAutoRelationship(goffice.DocTypePresentation, goffice.OfficeDocumentType,
+		len(p.slides), goffice.SlideType)
 	sd.RIdAttr = srelID.ID()
 
-	slidefn := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideType, len(p.slides))
-	p.ContentTypes.AddOverride(slidefn, unioffice.SlideContentType)
+	slidefn := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideType, len(p.slides))
+	p.ContentTypes.AddOverride(slidefn, goffice.SlideContentType)
 
 	srel := common.NewRelationships()
 	p.slideRels = append(p.slideRels, srel)
 	// TODO: make the slide layout configurable
-	srel.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.SlideType,
-		len(p.layouts), unioffice.SlideLayoutType)
+	srel.AddAutoRelationship(goffice.DocTypePresentation, goffice.SlideType,
+		len(p.layouts), goffice.SlideLayoutType)
 
 	return Slide{sd, slide, p}
 }
@@ -342,12 +332,12 @@ func (p *Presentation) AddSlideWithLayout(l SlideLayout) (Slide, error) {
 
 	p.slides = append(p.slides, slide)
 
-	srelID := p.prels.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.OfficeDocumentType,
-		len(p.slides), unioffice.SlideType)
+	srelID := p.prels.AddAutoRelationship(goffice.DocTypePresentation, goffice.OfficeDocumentType,
+		len(p.slides), goffice.SlideType)
 	sd.RIdAttr = srelID.ID()
 
-	slidefn := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideType, len(p.slides))
-	p.ContentTypes.AddOverride(slidefn, unioffice.SlideContentType)
+	slidefn := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideType, len(p.slides))
+	p.ContentTypes.AddOverride(slidefn, goffice.SlideContentType)
 
 	srel := common.NewRelationships()
 	p.slideRels = append(p.slideRels, srel)
@@ -356,12 +346,12 @@ func (p *Presentation) AddSlideWithLayout(l SlideLayout) (Slide, error) {
 		if lout == l.X() {
 			lrels := p.layoutRels[i]
 			for _, lrel := range lrels.X().Relationship {
-				if lrel.TypeAttr != unioffice.SlideMasterType {
+				if lrel.TypeAttr != goffice.SlideMasterType {
 					p.slideRels[slrLen].X().Relationship = append(p.slideRels[slrLen].X().Relationship, lrel)
 				}
 			}
-			srel.AddAutoRelationship(unioffice.DocTypePresentation, unioffice.SlideType,
-				i+1, unioffice.SlideLayoutType)
+			srel.AddAutoRelationship(goffice.DocTypePresentation, goffice.SlideType,
+				i+1, goffice.SlideLayoutType)
 		}
 	}
 	csld := Slide{sd, slide, p}
@@ -421,30 +411,30 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 		p.ContentTypes.EnsureOverride("/ppt/presentation.xml", "application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml")
 	}
 
-	dt := unioffice.DocTypePresentation
+	dt := goffice.DocTypePresentation
 
 	z := zip.NewWriter(w)
 	defer z.Close()
-	if err := zippkg.MarshalXML(z, unioffice.BaseRelsFilename, p.Rels.X()); err != nil {
+	if err := zippkg.MarshalXML(z, goffice.BaseRelsFilename, p.Rels.X()); err != nil {
 		return err
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.ExtendedPropertiesType, p.AppProperties.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.ExtendedPropertiesType, p.AppProperties.X()); err != nil {
 		return err
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.CorePropertiesType, p.CoreProperties.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.CorePropertiesType, p.CoreProperties.X()); err != nil {
 		return err
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.PresentationPropertiesType, p.presentationProperties.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.PresentationPropertiesType, p.presentationProperties.X()); err != nil {
 		return err
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.ViewPropertiesType, p.viewProperties.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.ViewPropertiesType, p.viewProperties.X()); err != nil {
 		return err
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.TableStylesType, p.tableStyles.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.TableStylesType, p.tableStyles.X()); err != nil {
 		return err
 	}
 	if p.CustomProperties.X() != nil {
-		if err := zippkg.MarshalXMLByType(z, dt, unioffice.CustomPropertiesType, p.CustomProperties.X()); err != nil {
+		if err := zippkg.MarshalXMLByType(z, dt, goffice.CustomPropertiesType, p.CustomProperties.X()); err != nil {
 			return err
 		}
 	}
@@ -458,7 +448,7 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 		}
 	}
 
-	documentFn := unioffice.AbsoluteFilename(dt, unioffice.OfficeDocumentType, 0)
+	documentFn := goffice.AbsoluteFilename(dt, goffice.OfficeDocumentType, 0)
 	if err := zippkg.MarshalXML(z, documentFn, p.x); err != nil {
 		return err
 	}
@@ -467,7 +457,7 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 	}
 
 	for i, slide := range p.slides {
-		spath := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideType, i+1)
+		spath := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideType, i+1)
 		zippkg.MarshalXML(z, spath, slide)
 		if !p.slideRels[i].IsEmpty() {
 			rpath := zippkg.RelationsPathFor(spath)
@@ -475,7 +465,7 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 		}
 	}
 	for i, m := range p.masters {
-		mpath := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideMasterType, i+1)
+		mpath := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideMasterType, i+1)
 		zippkg.MarshalXML(z, mpath, m)
 		if !p.masterRels[i].IsEmpty() {
 			rpath := zippkg.RelationsPathFor(mpath)
@@ -483,7 +473,7 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 		}
 	}
 	for i, l := range p.layouts {
-		mpath := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideLayoutType, i+1)
+		mpath := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideLayoutType, i+1)
 		zippkg.MarshalXML(z, mpath, l)
 		if !p.layoutRels[i].IsEmpty() {
 			rpath := zippkg.RelationsPathFor(mpath)
@@ -491,7 +481,7 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 		}
 	}
 	for i, l := range p.themes {
-		mpath := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.ThemeType, i+1)
+		mpath := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.ThemeType, i+1)
 		zippkg.MarshalXML(z, mpath, l)
 		if !p.themeRels[i].IsEmpty() {
 			rpath := zippkg.RelationsPathFor(mpath)
@@ -499,24 +489,24 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 		}
 	}
 	for i, chart := range p.charts {
-		fn := unioffice.AbsoluteFilename(dt, unioffice.ChartType, i+1)
+		fn := goffice.AbsoluteFilename(dt, goffice.ChartType, i+1)
 		zippkg.MarshalXML(z, fn, chart)
 	}
 	for i, hm := range p.handoutMaster {
-		fn := unioffice.AbsoluteFilename(dt, unioffice.HandoutMasterType, i+1)
+		fn := goffice.AbsoluteFilename(dt, goffice.HandoutMasterType, i+1)
 		zippkg.MarshalXML(z, fn, hm)
 	}
 	for i, nm := range p.notesMaster {
-		fn := unioffice.AbsoluteFilename(dt, unioffice.NotesMasterType, i+1)
+		fn := goffice.AbsoluteFilename(dt, goffice.NotesMasterType, i+1)
 		zippkg.MarshalXML(z, fn, nm)
 	}
 	for i, cx := range p.customXML {
-		fn := unioffice.AbsoluteFilename(dt, unioffice.CustomXMLType, i+1)
+		fn := goffice.AbsoluteFilename(dt, goffice.CustomXMLType, i+1)
 		zippkg.MarshalXML(z, fn, cx)
 	}
 
 	for i, img := range p.Images {
-		if err := common.AddImageToZip(z, img, i+1, unioffice.DocTypePresentation); err != nil {
+		if err := common.AddImageToZip(z, img, i+1, goffice.DocTypePresentation); err != nil {
 			return err
 		}
 	}
@@ -525,7 +515,7 @@ func (p *Presentation) save(w io.Writer, isTemplate bool) error {
 	p.ContentTypes.EnsureDefault("jpeg", "image/jpeg")
 	p.ContentTypes.EnsureDefault("jpg", "image/jpeg")
 	p.ContentTypes.EnsureDefault("wmf", "image/x-wmf")
-	if err := zippkg.MarshalXML(z, unioffice.ContentTypesFilename, p.ContentTypes.X()); err != nil {
+	if err := zippkg.MarshalXML(z, goffice.ContentTypesFilename, p.ContentTypes.X()); err != nil {
 		return err
 	}
 	if err := p.WriteExtraFiles(z); err != nil {
@@ -596,110 +586,110 @@ func (p *Presentation) SlideLayouts() []SlideLayout {
 }
 
 func (p *Presentation) onNewRelationship(decMap *zippkg.DecodeMap, target, typ string, files []*zip.File, rel *relationships.Relationship, src zippkg.Target) error {
-	dt := unioffice.DocTypePresentation
+	dt := goffice.DocTypePresentation
 
 	switch typ {
-	case unioffice.OfficeDocumentType:
+	case goffice.OfficeDocumentType:
 		p.x = pml.NewPresentation()
 		decMap.AddTarget(target, p.x, typ, 0)
 		decMap.AddTarget(zippkg.RelationsPathFor(target), p.prels.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.CorePropertiesType:
+	case goffice.CorePropertiesType:
 		decMap.AddTarget(target, p.CoreProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.CustomPropertiesType:
+	case goffice.CustomPropertiesType:
 		decMap.AddTarget(target, p.CustomProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.PresentationPropertiesType:
+	case goffice.PresentationPropertiesType:
 		decMap.AddTarget(target, p.presentationProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.ViewPropertiesType:
+	case goffice.ViewPropertiesType:
 		decMap.AddTarget(target, p.viewProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.TableStylesType:
+	case goffice.TableStylesType:
 		decMap.AddTarget(target, p.tableStyles.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.HyperLinkType:
+	case goffice.HyperLinkType:
 		hl := dml.NewCT_Hyperlink()
 		idx := uint32(len(p.hyperlinks))
 		decMap.AddTarget(target, hl, typ, idx)
 		p.hyperlinks = append(p.hyperlinks, hl)
 
-	case unioffice.CustomXMLType:
-		cx := &unioffice.XSDAny{}
+	case goffice.CustomXMLType:
+		cx := &goffice.XSDAny{}
 		idx := uint32(len(p.customXML))
 		decMap.AddTarget(target, cx, typ, idx)
 		p.customXML = append(p.customXML, cx)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.customXML))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.customXML))
 
-	case unioffice.ChartType:
+	case goffice.ChartType:
 		chart := crt.NewChartSpace()
 		idx := uint32(len(p.charts))
 		decMap.AddTarget(target, chart, typ, idx)
 		p.charts = append(p.charts, chart)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.charts))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.charts))
 
-	case unioffice.HandoutMasterType:
+	case goffice.HandoutMasterType:
 		nm := pml.NewHandoutMaster()
 		idx := uint32(len(p.handoutMaster))
 		decMap.AddTarget(target, nm, typ, idx)
 		p.handoutMaster = append(p.handoutMaster, nm)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.handoutMaster))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.handoutMaster))
 
-	case unioffice.NotesMasterType:
+	case goffice.NotesMasterType:
 		nm := pml.NewNotesMaster()
 		idx := uint32(len(p.notesMaster))
 		decMap.AddTarget(target, nm, typ, idx)
 		p.notesMaster = append(p.notesMaster, nm)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.notesMaster))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.notesMaster))
 
-	case unioffice.ExtendedPropertiesType:
+	case goffice.ExtendedPropertiesType:
 		decMap.AddTarget(target, p.AppProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.SlideType:
+	case goffice.SlideType:
 		sld := pml.NewSld()
 		p.slides = append(p.slides, sld)
 		decMap.AddTarget(target, sld, typ, uint32(len(p.slides)))
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.slides))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.slides))
 
 		slRel := common.NewRelationships()
 		decMap.AddTarget(zippkg.RelationsPathFor(target), slRel.X(), typ, 0)
 		p.slideRels = append(p.slideRels, slRel)
 
-	case unioffice.SlideMasterType:
+	case goffice.SlideMasterType:
 		sm := pml.NewSldMaster()
 		if !decMap.AddTarget(target, sm, typ, uint32(len(p.masters)+1)) {
 			return nil
 		}
 		p.masters = append(p.masters, sm)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.masters))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.masters))
 
 		// look for master rels
 		smRel := common.NewRelationships()
 		decMap.AddTarget(zippkg.RelationsPathFor(target), smRel.X(), typ, 0)
 		p.masterRels = append(p.masterRels, smRel)
 
-	case unioffice.SlideLayoutType:
+	case goffice.SlideLayoutType:
 		sl := pml.NewSldLayout()
 		if !decMap.AddTarget(target, sl, typ, uint32(len(p.layouts)+1)) {
 			return nil
 		}
 		p.layouts = append(p.layouts, sl)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.layouts))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.layouts))
 
 		// look for layout rels
 		slRel := common.NewRelationships()
 		decMap.AddTarget(zippkg.RelationsPathFor(target), slRel.X(), typ, 0)
 		p.layoutRels = append(p.layoutRels, slRel)
 
-	case unioffice.ThumbnailType:
+	case goffice.ThumbnailType:
 		// read our thumbnail
 		for i, f := range files {
 			if f == nil {
@@ -719,20 +709,20 @@ func (p *Presentation) onNewRelationship(decMap *zippkg.DecodeMap, target, typ s
 			}
 		}
 
-	case unioffice.ThemeType:
+	case goffice.ThemeType:
 		thm := dml.NewTheme()
 		if !decMap.AddTarget(target, thm, typ, uint32(len(p.themes)+1)) {
 			return nil
 		}
 		p.themes = append(p.themes, thm)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(p.themes))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(p.themes))
 
 		// look for theme rels
 		thmRel := common.NewRelationships()
 		decMap.AddTarget(zippkg.RelationsPathFor(target), thmRel.X(), typ, 0)
 		p.themeRels = append(p.themeRels, thmRel)
 
-	case unioffice.ImageType:
+	case goffice.ImageType:
 		// we use path.Clean instead of filepath.Clean to ensure we
 		// end up with forward separators
 		target = path.Clean(target)
@@ -763,11 +753,11 @@ func (p *Presentation) onNewRelationship(decMap *zippkg.DecodeMap, target, typ s
 			}
 		}
 		idx := decMap.IndexFor(target)
-		rel.TargetAttr = unioffice.RelativeImageFilename(dt, src.Typ, typ, idx, format)
+		rel.TargetAttr = goffice.RelativeImageFilename(dt, src.Typ, typ, idx, format)
 		p.imagesMap[target] = rel.TargetAttr
 
 	default:
-		unioffice.Log("unsupported relationship type: %s tgt: %s", typ, target)
+		goffice.Log("unsupported relationship type: %s tgt: %s", typ, target)
 	}
 	return nil
 }
@@ -809,7 +799,7 @@ func (p *Presentation) RemoveSlide(s Slide) error {
 	}
 
 	// remove it from content types
-	fn := unioffice.AbsoluteFilename(unioffice.DocTypePresentation, unioffice.SlideType, 0)
+	fn := goffice.AbsoluteFilename(goffice.DocTypePresentation, goffice.SlideType, 0)
 	return p.ContentTypes.RemoveOverrideByIndex(fn, slideIdx)
 }
 
@@ -873,5 +863,5 @@ func (p *Presentation) createCustomProperties() {
 
 func (p *Presentation) addCustomRelationships() {
 	p.ContentTypes.AddOverride("/docProps/custom.xml", "application/vnd.openxmlformats-officedocument.custom-properties+xml")
-	p.Rels.AddRelationship("docProps/custom.xml", unioffice.CustomPropertiesType)
+	p.Rels.AddRelationship("docProps/custom.xml", goffice.CustomPropertiesType)
 }

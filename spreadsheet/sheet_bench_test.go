@@ -3,7 +3,7 @@ package spreadsheet_test
 import (
 	"testing"
 
-	"goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet"
 )
 
 func BenchmarkAddRow(b *testing.B) {

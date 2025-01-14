@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package common
 
 import (
 	"fmt"
 
-	"goffice"
-	"goffice/schema/soo/ofc/extended_properties"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/ofc/extended_properties"
 )
 
 // AppProperties contains properties specific to the document and the
@@ -24,7 +17,7 @@ type AppProperties struct {
 func NewAppProperties() AppProperties {
 	p := AppProperties{x: extended_properties.NewProperties()}
 	p.SetCompany("FoxyUtils ehf")
-	p.SetApplication("goffice")
+	p.SetApplication("github.com/dhx007/goffice")
 	p.SetDocSecurity(0)
 	p.SetLinksUpToDate(false)
 
@@ -36,7 +29,7 @@ func NewAppProperties() AppProperties {
 }
 
 // Application returns the name of the application that created the document.
-// For gooxml created documents, it defaults to goffice
+// For gooxml created documents, it defaults to github.com/dhx007/goffice
 func (a AppProperties) Application() string {
 	if a.x.Application != nil {
 		return *a.x.Application
@@ -46,12 +39,12 @@ func (a AppProperties) Application() string {
 
 // SetLinksUpToDate sets the links up to date flag.
 func (a AppProperties) SetLinksUpToDate(v bool) {
-	a.x.LinksUpToDate = unioffice.Bool(v)
+	a.x.LinksUpToDate = goffice.Bool(v)
 }
 
 // SetDocSecurity sets the document security flag.
 func (a AppProperties) SetDocSecurity(v int32) {
-	a.x.DocSecurity = unioffice.Int32(v)
+	a.x.DocSecurity = goffice.Int32(v)
 }
 
 // SetApplication sets the name of the application that created the document.
@@ -80,7 +73,7 @@ func (a AppProperties) X() *extended_properties.Properties {
 }
 
 // Company returns the name of the company that created the document.
-// For gooxml created documents, it defaults to goffice
+// For gooxml created documents, it defaults to github.com/dhx007/goffice
 func (a AppProperties) Company() string {
 	if a.x.Company != nil {
 		return *a.x.Company

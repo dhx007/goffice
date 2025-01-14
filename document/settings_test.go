@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"goffice/schema/soo/wml"
-	"goffice/testhelper"
-	"goffice/zippkg"
+	"github.com/dhx007/goffice/schema/soo/wml"
+	"github.com/dhx007/goffice/testhelper"
+	"github.com/dhx007/goffice/zippkg"
 )
 
 func TestSettingsUnmarshal(t *testing.T) {

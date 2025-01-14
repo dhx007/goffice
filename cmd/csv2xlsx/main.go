@@ -1,5 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-
 package main
 
 import (
@@ -10,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"goffice/spreadsheet"
-	"goffice/spreadsheet/format"
+	"github.com/dhx007/goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet/format"
 )
 
 func main() {

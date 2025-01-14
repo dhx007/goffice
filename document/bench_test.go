@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"goffice/document"
+	"github.com/dhx007/goffice/document"
 )
 
 func BenchmarkAddPara(b *testing.B) {

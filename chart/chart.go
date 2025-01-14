@@ -1,21 +1,14 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package chart
 
 import (
 	"math/rand"
 
-	"goffice"
-	"goffice/color"
-	"goffice/drawing"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/drawing"
 
-	"goffice/schema/soo/dml"
-	crt "goffice/schema/soo/dml/chart"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
 )
 
 // Chart is a generic chart.
@@ -45,23 +38,23 @@ func (c Chart) AddLineChart() LineChart {
 func setup3DChart(c *crt.CT_Chart) {
 	c.View3D = crt.NewCT_View3D()
 	c.View3D.RotX = crt.NewCT_RotX()
-	c.View3D.RotX.ValAttr = unioffice.Int8(15)
+	c.View3D.RotX.ValAttr = goffice.Int8(15)
 	c.View3D.RotY = crt.NewCT_RotY()
-	c.View3D.RotY.ValAttr = unioffice.Uint16(20)
+	c.View3D.RotY.ValAttr = goffice.Uint16(20)
 	c.View3D.RAngAx = crt.NewCT_Boolean()
-	c.View3D.RAngAx.ValAttr = unioffice.Bool(false)
+	c.View3D.RAngAx.ValAttr = goffice.Bool(false)
 
 	c.Floor = crt.NewCT_Surface()
 	c.Floor.Thickness = crt.NewCT_Thickness()
-	c.Floor.Thickness.ValAttr.Uint32 = unioffice.Uint32(0)
+	c.Floor.Thickness.ValAttr.Uint32 = goffice.Uint32(0)
 
 	c.SideWall = crt.NewCT_Surface()
 	c.SideWall.Thickness = crt.NewCT_Thickness()
-	c.SideWall.Thickness.ValAttr.Uint32 = unioffice.Uint32(0)
+	c.SideWall.Thickness.ValAttr.Uint32 = goffice.Uint32(0)
 
 	c.BackWall = crt.NewCT_Surface()
 	c.BackWall.Thickness = crt.NewCT_Thickness()
-	c.BackWall.Thickness.ValAttr.Uint32 = unioffice.Uint32(0)
+	c.BackWall.Thickness.ValAttr.Uint32 = goffice.Uint32(0)
 
 }
 
@@ -180,10 +173,10 @@ func (c Chart) AddSurfaceChart() SurfaceChart {
 	// The surface chart is in 3d, only rotated to an initial straight down view and
 	// perspective = 0
 	setup3DChart(c.x.Chart)
-	c.x.Chart.View3D.RotX.ValAttr = unioffice.Int8(90)
-	c.x.Chart.View3D.RotY.ValAttr = unioffice.Uint16(0)
+	c.x.Chart.View3D.RotX.ValAttr = goffice.Int8(90)
+	c.x.Chart.View3D.RotY.ValAttr = goffice.Uint16(0)
 	c.x.Chart.View3D.Perspective = crt.NewCT_Perspective()
-	c.x.Chart.View3D.Perspective.ValAttr = unioffice.Uint8(0)
+	c.x.Chart.View3D.Perspective.ValAttr = goffice.Uint8(0)
 
 	b := SurfaceChart{x: chc.SurfaceChart}
 	b.InitializeDefaults()
@@ -270,7 +263,7 @@ func (c Chart) AddValueAxis() ValueAxis {
 	c.x.Chart.PlotArea.CChoice.ValAx = append(c.x.Chart.PlotArea.CChoice.ValAx, va)
 
 	va.Delete = crt.NewCT_Boolean()
-	va.Delete.ValAttr = unioffice.Bool(false)
+	va.Delete.ValAttr = goffice.Bool(false)
 
 	va.Scaling = crt.NewCT_Scaling()
 	va.Scaling.Orientation = crt.NewCT_Orientation()
@@ -306,10 +299,10 @@ func (c Chart) AddCategoryAxis() CategoryAxis {
 	c.x.Chart.PlotArea.CChoice.CatAx = append(c.x.Chart.PlotArea.CChoice.CatAx, ca)
 
 	ca.Auto = crt.NewCT_Boolean()
-	ca.Auto.ValAttr = unioffice.Bool(true)
+	ca.Auto.ValAttr = goffice.Bool(true)
 
 	ca.Delete = crt.NewCT_Boolean()
-	ca.Delete.ValAttr = unioffice.Bool(false)
+	ca.Delete.ValAttr = goffice.Bool(false)
 
 	cax := MakeCategoryAxis(ca)
 	cax.InitializeDefaults()
@@ -328,7 +321,7 @@ func (c Chart) AddDateAxis() DateAxis {
 	c.x.Chart.PlotArea.CChoice.DateAx = append(c.x.Chart.PlotArea.CChoice.DateAx, va)
 
 	va.Delete = crt.NewCT_Boolean()
-	va.Delete.ValAttr = unioffice.Bool(false)
+	va.Delete.ValAttr = goffice.Bool(false)
 
 	va.Scaling = crt.NewCT_Scaling()
 	va.Scaling.Orientation = crt.NewCT_Orientation()
@@ -359,7 +352,7 @@ func (c Chart) AddSeriesAxis() SeriesAxis {
 	c.x.Chart.PlotArea.CChoice.SerAx = append(c.x.Chart.PlotArea.CChoice.SerAx, sa)
 
 	sa.Delete = crt.NewCT_Boolean()
-	sa.Delete.ValAttr = unioffice.Bool(false)
+	sa.Delete.ValAttr = goffice.Bool(false)
 
 	sax := MakeSeriesAxis(sa)
 	sax.InitializeDefaults()
@@ -384,17 +377,17 @@ func (c Chart) AddLegend() Legend {
 func (c Chart) RemoveTitle() {
 	c.x.Chart.Title = nil
 	c.x.Chart.AutoTitleDeleted = crt.NewCT_Boolean()
-	c.x.Chart.AutoTitleDeleted.ValAttr = unioffice.Bool(true)
+	c.x.Chart.AutoTitleDeleted.ValAttr = goffice.Bool(true)
 }
 
 // AddTitle sets a new title on the chart.
 func (c Chart) AddTitle() Title {
 	c.x.Chart.Title = crt.NewCT_Title()
 	c.x.Chart.Title.Overlay = crt.NewCT_Boolean()
-	c.x.Chart.Title.Overlay.ValAttr = unioffice.Bool(false)
+	c.x.Chart.Title.Overlay.ValAttr = goffice.Bool(false)
 
 	c.x.Chart.AutoTitleDeleted = crt.NewCT_Boolean()
-	c.x.Chart.AutoTitleDeleted.ValAttr = unioffice.Bool(false)
+	c.x.Chart.AutoTitleDeleted.ValAttr = goffice.Bool(false)
 
 	title := MakeTitle(c.x.Chart.Title)
 	title.InitializeDefaults()

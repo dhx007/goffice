@@ -1,16 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // ColorScale colors a cell background based off of the cell value.
@@ -27,7 +20,7 @@ func (c ColorScale) X() *sml.CT_ColorScale {
 func (c ColorScale) AddFormatValue(t sml.ST_CfvoType, val string) {
 	v := sml.NewCT_Cfvo()
 	v.TypeAttr = t
-	v.ValAttr = unioffice.String(val)
+	v.ValAttr = goffice.String(val)
 	c.x.Cfvo = append(c.x.Cfvo, v)
 }
 

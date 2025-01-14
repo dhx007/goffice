@@ -1,19 +1,12 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
 	"fmt"
 
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // Styles is the document wide styles contained in styles.xml.
@@ -44,9 +37,9 @@ func (s Styles) AddStyle(styleID string, t wml.ST_StyleType, isDefault bool) Sty
 	ss.TypeAttr = t
 	if isDefault {
 		ss.DefaultAttr = &sharedTypes.ST_OnOff{}
-		ss.DefaultAttr.Bool = unioffice.Bool(isDefault)
+		ss.DefaultAttr.Bool = goffice.Bool(isDefault)
 	}
-	ss.StyleIdAttr = unioffice.String(styleID)
+	ss.StyleIdAttr = goffice.String(styleID)
 	s.x.Style = append(s.x.Style, ss)
 	return Style{ss}
 }
@@ -174,9 +167,9 @@ func (s Styles) initializeDocDefaults() {
 	rpr.Fonts().SetCSTheme(wml.ST_ThemeMajorBidi)
 
 	rpr.X().Lang = wml.NewCT_Language()
-	rpr.X().Lang.ValAttr = unioffice.String("en-US")
-	rpr.X().Lang.EastAsiaAttr = unioffice.String("en-US")
-	rpr.X().Lang.BidiAttr = unioffice.String("ar-SA")
+	rpr.X().Lang.ValAttr = goffice.String("en-US")
+	rpr.X().Lang.EastAsiaAttr = goffice.String("en-US")
+	rpr.X().Lang.BidiAttr = goffice.String("ar-SA")
 
 	s.x.DocDefaults.PPrDefault = wml.NewCT_PPrDefault()
 }

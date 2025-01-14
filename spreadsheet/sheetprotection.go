@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 type SheetProtection struct {
@@ -31,7 +24,7 @@ func (p SheetProtection) LockSheet(b bool) {
 	if !b {
 		p.x.SheetAttr = nil
 	} else {
-		p.x.SheetAttr = unioffice.Bool(true)
+		p.x.SheetAttr = goffice.Bool(true)
 	}
 }
 
@@ -45,7 +38,7 @@ func (p SheetProtection) LockObject(b bool) {
 	if !b {
 		p.x.ObjectsAttr = nil
 	} else {
-		p.x.ObjectsAttr = unioffice.Bool(true)
+		p.x.ObjectsAttr = goffice.Bool(true)
 	}
 }
 
@@ -64,5 +57,5 @@ func (p SheetProtection) SetPassword(pw string) {
 
 // SetPasswordHash sets the password hash to the input.
 func (p SheetProtection) SetPasswordHash(pwHash string) {
-	p.x.PasswordAttr = unioffice.String(pwHash)
+	p.x.PasswordAttr = goffice.String(pwHash)
 }

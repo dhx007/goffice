@@ -1,16 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/common"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // HyperLink is a link within a document.
@@ -27,20 +20,20 @@ func (h HyperLink) X() *wml.CT_Hyperlink {
 // SetTargetByRef sets the URL target of the hyperlink and is more efficient if a link
 // destination will be used many times.
 func (h HyperLink) SetTargetByRef(link common.Hyperlink) {
-	h.x.IdAttr = unioffice.String(common.Relationship(link).ID())
+	h.x.IdAttr = goffice.String(common.Relationship(link).ID())
 	h.x.AnchorAttr = nil
 }
 
 // SetTarget sets the URL target of the hyperlink.
 func (h HyperLink) SetTarget(url string) {
 	rel := h.d.AddHyperlink(url)
-	h.x.IdAttr = unioffice.String(common.Relationship(rel).ID())
+	h.x.IdAttr = goffice.String(common.Relationship(rel).ID())
 	h.x.AnchorAttr = nil
 }
 
 // SetTargetBookmark sets the bookmark target of the hyperlink.
 func (h HyperLink) SetTargetBookmark(bm Bookmark) {
-	h.x.AnchorAttr = unioffice.String(bm.Name())
+	h.x.AnchorAttr = goffice.String(bm.Name())
 	h.x.IdAttr = nil
 }
 
@@ -49,7 +42,7 @@ func (h HyperLink) SetToolTip(text string) {
 	if text == "" {
 		h.x.TooltipAttr = nil
 	} else {
-		h.x.TooltipAttr = unioffice.String(text)
+		h.x.TooltipAttr = goffice.String(text)
 	}
 }
 

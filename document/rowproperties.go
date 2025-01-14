@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // RowProperties are the properties for a row within a table
@@ -27,7 +20,7 @@ func (r RowProperties) SetHeight(ht measurement.Distance, rule wml.ST_HeightRule
 		htv := wml.NewCT_Height()
 		htv.HRuleAttr = rule
 		htv.ValAttr = &sharedTypes.ST_TwipsMeasure{}
-		htv.ValAttr.ST_UnsignedDecimalNumber = unioffice.Uint64(uint64(ht / measurement.Twips))
+		htv.ValAttr.ST_UnsignedDecimalNumber = goffice.Uint64(uint64(ht / measurement.Twips))
 		r.x.TrHeight = []*wml.CT_Height{htv}
 	}
 }

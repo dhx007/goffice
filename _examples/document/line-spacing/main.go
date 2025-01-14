@@ -1,12 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
 	"log"
 
-	"goffice/document"
-	"goffice/measurement"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice/document"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 func main() {

@@ -1,14 +1,13 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
 	"log"
 
-	"goffice/color"
-	"goffice/measurement"
-	"goffice/schema/soo/dml"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/dml"
 
-	"goffice/presentation"
+	"github.com/dhx007/goffice/presentation"
 )
 
 func main() {

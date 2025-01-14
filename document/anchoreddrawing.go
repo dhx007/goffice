@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/common"
-	"goffice/measurement"
-	pic "goffice/schema/soo/dml/picture"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/measurement"
+	pic "github.com/dhx007/goffice/schema/soo/dml/picture"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // AnchoredDrawing is an absolutely positioned image within a document page.
@@ -46,7 +39,7 @@ func (a AnchoredDrawing) SetName(name string) {
 	a.x.DocPr.NameAttr = name
 	for _, a := range a.x.Graphic.GraphicData.Any {
 		if p, ok := a.(*pic.Pic); ok {
-			p.NvPicPr.CNvPr.DescrAttr = unioffice.String(name)
+			p.NvPicPr.CNvPr.DescrAttr = goffice.String(name)
 		}
 	}
 }
@@ -69,13 +62,13 @@ func (a AnchoredDrawing) SetOffset(x, y measurement.Distance) {
 // SetXOffset sets the X offset for an image relative to the origin.
 func (a AnchoredDrawing) SetXOffset(x measurement.Distance) {
 	a.x.PositionH.Choice = &wml.WdCT_PosHChoice{}
-	a.x.PositionH.Choice.PosOffset = unioffice.Int32(int32(x / measurement.EMU))
+	a.x.PositionH.Choice.PosOffset = goffice.Int32(int32(x / measurement.EMU))
 }
 
 // SetYOffset sets the Y offset for an image relative to the origin.
 func (a AnchoredDrawing) SetYOffset(y measurement.Distance) {
 	a.x.PositionV.Choice = &wml.WdCT_PosVChoice{}
-	a.x.PositionV.Choice.PosOffset = unioffice.Int32(int32(y / measurement.EMU))
+	a.x.PositionV.Choice.PosOffset = goffice.Int32(int32(y / measurement.EMU))
 }
 
 // SetAlignment positions an anchored image via alignment.  Offset is

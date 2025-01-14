@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package chart
 
 import (
-	"goffice"
-	"goffice/drawing"
-	"goffice/schema/soo/dml"
-	crt "goffice/schema/soo/dml/chart"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/drawing"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
 )
 
 // Surface3DChart is a 3D view of a surface chart.
@@ -27,7 +20,7 @@ func (c Surface3DChart) X() *crt.CT_Surface3DChart {
 
 func (c Surface3DChart) InitializeDefaults() {
 	c.x.Wireframe = crt.NewCT_Boolean()
-	c.x.Wireframe.ValAttr = unioffice.Bool(false)
+	c.x.Wireframe.ValAttr = goffice.Bool(false)
 
 	c.x.BandFmts = crt.NewCT_BandFmts()
 	for i := 0; i < 15; i++ {

@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // CellStyle is a formatting style for a cell.  CellStyles are spreadsheet global
@@ -49,15 +42,15 @@ func (cs CellStyle) ClearNumberFormat() {
 // SetNumberFormatStandard sets the format based off of the ECMA 376 standard formats.  These
 // formats are standardized and don't need to be defined in the styles.
 func (cs CellStyle) SetNumberFormatStandard(s StandardFormat) {
-	cs.xf.NumFmtIdAttr = unioffice.Uint32(uint32(s))
-	cs.xf.ApplyNumberFormatAttr = unioffice.Bool(true)
+	cs.xf.NumFmtIdAttr = goffice.Uint32(uint32(s))
+	cs.xf.ApplyNumberFormatAttr = goffice.Bool(true)
 }
 
 func (cs CellStyle) SetNumberFormat(s string) {
 	nf := cs.wb.StyleSheet.AddNumberFormat()
 	nf.SetFormat(s)
-	cs.xf.ApplyNumberFormatAttr = unioffice.Bool(true)
-	cs.xf.NumFmtIdAttr = unioffice.Uint32(nf.ID())
+	cs.xf.ApplyNumberFormatAttr = goffice.Bool(true)
+	cs.xf.NumFmtIdAttr = goffice.Uint32(nf.ID())
 }
 
 // Wrapped returns true if the cell will wrap text.
@@ -79,8 +72,8 @@ func (cs CellStyle) SetWrapped(b bool) {
 	if !b {
 		cs.xf.Alignment.WrapTextAttr = nil
 	} else {
-		cs.xf.Alignment.WrapTextAttr = unioffice.Bool(true)
-		cs.xf.ApplyAlignmentAttr = unioffice.Bool(true)
+		cs.xf.Alignment.WrapTextAttr = goffice.Bool(true)
+		cs.xf.ApplyAlignmentAttr = goffice.Bool(true)
 	}
 }
 
@@ -90,7 +83,7 @@ func (cs CellStyle) SetHorizontalAlignment(a sml.ST_HorizontalAlignment) {
 		cs.xf.Alignment = sml.NewCT_CellAlignment()
 	}
 	cs.xf.Alignment.HorizontalAttr = a
-	cs.xf.ApplyAlignmentAttr = unioffice.Bool(true)
+	cs.xf.ApplyAlignmentAttr = goffice.Bool(true)
 }
 
 // SetRotation configures the cell to be rotated.
@@ -98,8 +91,8 @@ func (cs CellStyle) SetRotation(deg uint8) {
 	if cs.xf.Alignment == nil {
 		cs.xf.Alignment = sml.NewCT_CellAlignment()
 	}
-	cs.xf.ApplyAlignmentAttr = unioffice.Bool(true)
-	cs.xf.Alignment.TextRotationAttr = unioffice.Uint8(deg)
+	cs.xf.ApplyAlignmentAttr = goffice.Bool(true)
+	cs.xf.Alignment.TextRotationAttr = goffice.Uint8(deg)
 }
 
 // SetVerticalAlignment sets the vertical alignment of a cell style.
@@ -107,7 +100,7 @@ func (cs CellStyle) SetVerticalAlignment(a sml.ST_VerticalAlignment) {
 	if cs.xf.Alignment == nil {
 		cs.xf.Alignment = sml.NewCT_CellAlignment()
 	}
-	cs.xf.ApplyAlignmentAttr = unioffice.Bool(true)
+	cs.xf.ApplyAlignmentAttr = goffice.Bool(true)
 	cs.xf.Alignment.VerticalAttr = a
 }
 
@@ -115,11 +108,11 @@ func (cs CellStyle) SetShrinkToFit(b bool) {
 	if cs.xf.Alignment == nil {
 		cs.xf.Alignment = sml.NewCT_CellAlignment()
 	}
-	cs.xf.ApplyAlignmentAttr = unioffice.Bool(true)
+	cs.xf.ApplyAlignmentAttr = goffice.Bool(true)
 	if !b {
 		cs.xf.Alignment.ShrinkToFitAttr = nil
 	} else {
-		cs.xf.Alignment.ShrinkToFitAttr = unioffice.Bool(b)
+		cs.xf.Alignment.ShrinkToFitAttr = goffice.Bool(b)
 	}
 }
 
@@ -133,16 +126,16 @@ func (cs CellStyle) ClearFont() {
 // index so modifying the font afterward will affect all styles that reference
 // it.
 func (cs CellStyle) SetFont(f Font) {
-	cs.xf.FontIdAttr = unioffice.Uint32(f.Index())
-	cs.xf.ApplyFontAttr = unioffice.Bool(true)
+	cs.xf.FontIdAttr = goffice.Uint32(f.Index())
+	cs.xf.ApplyFontAttr = goffice.Bool(true)
 }
 
 // SetBorder applies a border to a cell style.  The border is referenced by its
 // index so modifying the border afterward will affect all styles that reference
 // it.
 func (cs CellStyle) SetBorder(b Border) {
-	cs.xf.BorderIdAttr = unioffice.Uint32(b.Index())
-	cs.xf.ApplyBorderAttr = unioffice.Bool(true)
+	cs.xf.BorderIdAttr = goffice.Uint32(b.Index())
+	cs.xf.ApplyBorderAttr = goffice.Bool(true)
 }
 
 // ClearBorder clears any border configuration from the cell style.
@@ -154,8 +147,8 @@ func (cs CellStyle) ClearBorder() {
 // SetFill applies a fill to a cell style.  The fill is referenced by its index
 // so modifying the fill afterward will affect all styles that reference it.
 func (cs CellStyle) SetFill(f Fill) {
-	cs.xf.FillIdAttr = unioffice.Uint32(f.Index())
-	cs.xf.ApplyFillAttr = unioffice.Bool(true)
+	cs.xf.FillIdAttr = goffice.Uint32(f.Index())
+	cs.xf.ApplyFillAttr = goffice.Bool(true)
 }
 
 // ClearFill clears any fill configuration from the cell style.

@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"goffice/document"
-	"goffice/testhelper"
-	"goffice/zippkg"
+	"github.com/dhx007/goffice/document"
+	"github.com/dhx007/goffice/testhelper"
+	"github.com/dhx007/goffice/zippkg"
 )
 
 func TestStylesUnmarshal(t *testing.T) {

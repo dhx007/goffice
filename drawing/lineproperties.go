@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package drawing
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/measurement"
-	"goffice/schema/soo/dml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/dml"
 )
 
 type LineProperties struct {
@@ -26,7 +19,7 @@ func (l LineProperties) X() *dml.CT_LineProperties {
 // SetWidth sets the line width, MS products treat zero as the minimum width
 // that can be displayed.
 func (l LineProperties) SetWidth(w measurement.Distance) {
-	l.x.WAttr = unioffice.Int32(int32(w / measurement.EMU))
+	l.x.WAttr = goffice.Int32(int32(w / measurement.EMU))
 }
 
 func (l LineProperties) clearFill() {

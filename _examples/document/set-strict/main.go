@@ -1,9 +1,7 @@
-// Copyright 2020 FoxyUtils ehf. All rights reserved.
-
 package main
 
 import (
-	"goffice/document"
+	"github.com/dhx007/goffice/document"
 )
 
 func main() {

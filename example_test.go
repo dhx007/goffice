@@ -1,12 +1,12 @@
-package unioffice_test
+package goffice_test
 
 import (
-	"goffice/document"
-	"goffice/spreadsheet"
+	"github.com/dhx007/goffice/document"
+	"github.com/dhx007/goffice/spreadsheet"
 )
 
 func Example_document() {
-	// see the goffice/document documentation or _examples/document
+	// see the github.com/dhx007/goffice/document documentation or _examples/document
 	// for more examples
 	doc := document.New()
 	doc.AddParagraph().AddRun().AddText("Hello World!")
@@ -14,7 +14,7 @@ func Example_document() {
 }
 
 func Example_spreadsheeet() {
-	// see the goffice/spreadsheet documentation or _examples/spreadsheet
+	// see the github.com/dhx007/goffice/spreadsheet documentation or _examples/spreadsheet
 	// for more examples
 	ss := spreadsheet.New()
 	sheet := ss.AddSheet()

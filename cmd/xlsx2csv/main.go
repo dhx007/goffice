@@ -1,5 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-
 package main
 
 import (
@@ -8,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"goffice/spreadsheet"
-	"goffice/spreadsheet/reference"
+	"github.com/dhx007/goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet/reference"
 )
 
 func main() {

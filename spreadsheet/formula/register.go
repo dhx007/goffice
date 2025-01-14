@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package formula
 
 import (
 	"sort"
 	"sync"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 )
 
 // SupportedFunctions returns a list of supported functions.
@@ -45,7 +38,7 @@ func RegisterFunction(name string, fn Function) {
 	regLock.Lock()
 	defer regLock.Unlock()
 	if _, ok := registered[name]; ok {
-		unioffice.Log("duplicate registration of function %s", name)
+		goffice.Log("duplicate registration of function %s", name)
 	}
 	registered[name] = fn
 }
@@ -55,7 +48,7 @@ func RegisterFunctionComplex(name string, fn FunctionComplex) {
 	regLock.Lock()
 	defer regLock.Unlock()
 	if _, ok := registeredComplex[name]; ok {
-		unioffice.Log("duplicate registration of function %s", name)
+		goffice.Log("duplicate registration of function %s", name)
 	}
 	registeredComplex[name] = fn
 }

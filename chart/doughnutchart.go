@@ -1,14 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package chart
 
-import crt "goffice/schema/soo/dml/chart"
-import "goffice"
+import (
+	"github.com/dhx007/goffice"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
+)
 
 // DoughnutChart is a Doughnut chart.
 type DoughnutChart struct {
@@ -24,10 +19,10 @@ func (c DoughnutChart) X() *crt.CT_DoughnutChart {
 // InitializeDefaults the bar chart to its defaults
 func (c DoughnutChart) InitializeDefaults() {
 	c.x.VaryColors = crt.NewCT_Boolean()
-	c.x.VaryColors.ValAttr = unioffice.Bool(true)
+	c.x.VaryColors.ValAttr = goffice.Bool(true)
 	c.x.HoleSize = crt.NewCT_HoleSize()
 	c.x.HoleSize.ValAttr = &crt.ST_HoleSize{}
-	c.x.HoleSize.ValAttr.ST_HoleSizeUByte = unioffice.Uint8(50)
+	c.x.HoleSize.ValAttr.ST_HoleSizeUByte = goffice.Uint8(50)
 }
 
 // SetHoleSize controls the hole size in the pie chart and is measured in percent.

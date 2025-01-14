@@ -1,10 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package format
 
 import (
@@ -14,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 )
 
 // constants used when formatting generic values to determine when to start
@@ -41,6 +34,7 @@ type Format struct {
 }
 
 // FmtType is the type of a format token.
+//
 //go:generate stringer -type=FmtType
 type FmtType byte
 
@@ -121,7 +115,7 @@ func (f *Format) AddToken(t FmtType, l []byte) {
 			// TODO: if anyone cares, parse and use the numerator format.
 		}
 	default:
-		unioffice.Log("unsupported ph type in parse %v", t)
+		goffice.Log("unsupported ph type in parse %v", t)
 	}
 }
 
@@ -360,7 +354,7 @@ lfor:
 		case FmtTypeTime:
 			op = append(op, reverse(dTime(t, vOrig, ph.DateTime))...)
 		default:
-			unioffice.Log("unsupported type in whole %v", ph)
+			goffice.Log("unsupported type in whole %v", ph)
 		}
 	}
 
@@ -437,7 +431,7 @@ lforPost:
 		case FmtTypeLiteral:
 			op = append(op, ph.Literal)
 		default:
-			unioffice.Log("unsupported type in fractional %v", ph)
+			goffice.Log("unsupported type in fractional %v", ph)
 		}
 	}
 	// remaining digits are truncated
@@ -497,7 +491,7 @@ lexfor:
 		case FmtTypeLiteral:
 			op = append(op, ph.Literal)
 		default:
-			unioffice.Log("unsupported type in exp %v", ph)
+			goffice.Log("unsupported type in exp %v", ph)
 		}
 	}
 	// remaining non-consumed digits in the exponent
@@ -649,7 +643,7 @@ func dDate(t time.Time, f string) []byte {
 		case "dddd":
 			ret = t.AppendFormat(ret, "Monday")
 		default:
-			unioffice.Log("unsupported date format %s", s)
+			goffice.Log("unsupported date format %s", s)
 		}
 		if f[i] == '/' {
 			ret = append(ret, '/')
@@ -712,7 +706,7 @@ func dTime(t time.Time, v float64, f string) []byte {
 			ret = strconv.AppendInt(ret, int64(v*24*60*60), 10)
 		case "":
 		default:
-			unioffice.Log("unsupported time format %s", s)
+			goffice.Log("unsupported time format %s", s)
 		}
 		if f[i] == ':' {
 			ret = append(ret, ':')

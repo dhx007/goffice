@@ -1,19 +1,12 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
 	"fmt"
 
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/sml"
-	"goffice/spreadsheet/reference"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/sml"
+	"github.com/dhx007/goffice/spreadsheet/reference"
 )
 
 // Row is a row within a spreadsheet.
@@ -38,8 +31,8 @@ func (r Row) RowNumber() uint32 {
 
 // SetHeight sets the row height in points.
 func (r Row) SetHeight(d measurement.Distance) {
-	r.x.HtAttr = unioffice.Float64(float64(d))
-	r.x.CustomHeightAttr = unioffice.Bool(true)
+	r.x.HtAttr = goffice.Float64(float64(d))
+	r.x.CustomHeightAttr = goffice.Bool(true)
 }
 
 // SetHeightAuto sets the row height to be automatically determined.
@@ -58,7 +51,7 @@ func (r Row) SetHidden(hidden bool) {
 	if !hidden {
 		r.x.HiddenAttr = nil
 	} else {
-		r.x.HiddenAttr = unioffice.Bool(true)
+		r.x.HiddenAttr = goffice.Bool(true)
 	}
 }
 
@@ -67,10 +60,10 @@ func (r Row) AddCell() Cell {
 	numCells := uint32(len(r.x.C))
 	var nextCellID *string
 	if numCells > 0 {
-		prevCellName := unioffice.Stringf("%s%d", reference.IndexToColumn(numCells-1), r.RowNumber())
+		prevCellName := goffice.Stringf("%s%d", reference.IndexToColumn(numCells-1), r.RowNumber())
 		// previous cell has an expected name
 		if r.x.C[numCells-1].RAttr != nil && *r.x.C[numCells-1].RAttr == *prevCellName {
-			nextCellID = unioffice.Stringf("%s%d", reference.IndexToColumn(numCells), r.RowNumber())
+			nextCellID = goffice.Stringf("%s%d", reference.IndexToColumn(numCells), r.RowNumber())
 		}
 	}
 
@@ -88,7 +81,7 @@ func (r Row) AddCell() Cell {
 				}
 			}
 		}
-		nextCellID = unioffice.Stringf("%s%d", reference.IndexToColumn(nextIdx), r.RowNumber())
+		nextCellID = goffice.Stringf("%s%d", reference.IndexToColumn(nextIdx), r.RowNumber())
 	}
 	c.RAttr = nextCellID
 	return Cell{r.w, r.sheet, r.x, c}
@@ -101,12 +94,12 @@ func (r Row) Cells() []Cell {
 	lastIndex := -1
 	for _, c := range r.x.C {
 		if c.RAttr == nil {
-			unioffice.Log("RAttr is nil for a cell, skipping.")
+			goffice.Log("RAttr is nil for a cell, skipping.")
 			continue
 		}
 		ref, err := reference.ParseCellReference(*c.RAttr)
 		if err != nil {
-			unioffice.Log("RAttr is incorrect for a cell: " + *c.RAttr + ", skipping.")
+			goffice.Log("RAttr is incorrect for a cell: " + *c.RAttr + ", skipping.")
 			continue
 		}
 		currentIndex := int(ref.ColumnIdx)
@@ -138,7 +131,7 @@ func (r Row) CellsWithEmpty(lastColIdx uint32) []Cell {
 // invaild spreadsheet.
 func (r Row) AddNamedCell(col string) Cell {
 	c := sml.NewCT_Cell()
-	c.RAttr = unioffice.Stringf("%s%d", col, r.RowNumber())
+	c.RAttr = goffice.Stringf("%s%d", col, r.RowNumber())
 
 	indexToInsert := -1
 	colIdx := reference.ColumnToIndex(col)
@@ -176,12 +169,12 @@ func (r Row) Cell(col string) Cell {
 // row so they refer to the new row number. This is used when sorting to fix up
 // moved rows.
 func (r Row) renumberAs(rowNumber uint32) {
-	r.x.RAttr = unioffice.Uint32(rowNumber)
+	r.x.RAttr = goffice.Uint32(rowNumber)
 	for _, c := range r.Cells() {
 		cref, err := reference.ParseCellReference(c.Reference())
 		if err == nil {
 			newRef := fmt.Sprintf("%s%d", cref.Column, rowNumber)
-			c.x.RAttr = unioffice.String(newRef)
+			c.x.RAttr = goffice.String(newRef)
 		}
 	}
 }

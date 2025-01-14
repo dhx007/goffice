@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // DataValidation controls cell validation
@@ -23,8 +16,8 @@ func (d DataValidation) X() *sml.CT_DataValidation {
 }
 
 func (d DataValidation) clear() {
-	d.x.Formula1 = unioffice.String("0")
-	d.x.Formula2 = unioffice.String("0")
+	d.x.Formula1 = goffice.String("0")
+	d.x.Formula2 = goffice.String("0")
 }
 
 // SetAllowBlank controls if blank values are accepted.
@@ -32,7 +25,7 @@ func (d DataValidation) SetAllowBlank(b bool) {
 	if !b {
 		d.x.AllowBlankAttr = nil
 	} else {
-		d.x.AllowBlankAttr = unioffice.Bool(true)
+		d.x.AllowBlankAttr = goffice.Bool(true)
 	}
 }
 

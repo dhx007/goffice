@@ -5,11 +5,11 @@ import (
 	"os"
 	"time"
 
-	"goffice/common"
-	"goffice/schema/soo/dml"
-	"goffice/schema/soo/pml"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	"github.com/dhx007/goffice/schema/soo/pml"
 
-	"goffice/presentation"
+	"github.com/dhx007/goffice/presentation"
 )
 
 func main() {

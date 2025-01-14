@@ -1,20 +1,13 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package common
 
 import (
 	"fmt"
-	"strings"
-	"strconv"
 	"regexp"
+	"strconv"
+	"strings"
 
-	"goffice"
-	"goffice/schema/soo/pkg/content_types"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/pkg/content_types"
 )
 
 // ContentTypes is the top level "[Content_Types].xml" in a zip package.
@@ -58,7 +51,7 @@ func (c ContentTypes) AddOverride(path, contentType string) {
 		path = "/" + path
 	}
 	if strings.HasPrefix(contentType, "http") {
-		unioffice.Log("content type '%s' is incorrect, must not start with http", contentType)
+		goffice.Log("content type '%s' is incorrect, must not start with http", contentType)
 	}
 	or := content_types.NewOverride()
 	or.PartNameAttr = path
@@ -88,7 +81,7 @@ func (c ContentTypes) EnsureOverride(path, contentType string) {
 		// found one, so just ensure the content type matches and bail
 		if ovr.PartNameAttr == path {
 			if strings.HasPrefix(contentType, "http") {
-				unioffice.Log("content type '%s' is incorrect, must not start with http", contentType)
+				goffice.Log("content type '%s' is incorrect, must not start with http", contentType)
 			}
 			ovr.ContentTypeAttr = contentType
 			return
@@ -114,7 +107,7 @@ func (c ContentTypes) RemoveOverride(path string) {
 
 // RemoveOverrideByIndex removes an override given a path and override index.
 func (c ContentTypes) RemoveOverrideByIndex(path string, indexToFind int) error {
-	pathPrefix := path[0:len(path)-5] // cut off '0.xml' from the end
+	pathPrefix := path[0 : len(path)-5] // cut off '0.xml' from the end
 	if !strings.HasPrefix(pathPrefix, "/") {
 		pathPrefix = "/" + pathPrefix
 	}

@@ -1,5 +1,3 @@
-// Copyright 2018 FoxyUtils ehf. All rights reserved.
-
 package document
 
 import (
@@ -7,7 +5,7 @@ import (
 	"strings"
 	"unicode"
 
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 type mergeFieldInfo struct {

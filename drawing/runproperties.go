@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package drawing
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/measurement"
-	"goffice/schema/soo/dml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/dml"
 )
 
 // RunProperties controls the run properties.
@@ -26,12 +19,12 @@ func MakeRunProperties(x *dml.CT_TextCharacterProperties) RunProperties {
 
 // SetSize sets the font size of the run text
 func (r RunProperties) SetSize(sz measurement.Distance) {
-	r.x.SzAttr = unioffice.Int32(int32(sz / measurement.HundredthPoint))
+	r.x.SzAttr = goffice.Int32(int32(sz / measurement.HundredthPoint))
 }
 
 // SetBold controls the bolding of a run.
 func (r RunProperties) SetBold(b bool) {
-	r.x.BAttr = unioffice.Bool(b)
+	r.x.BAttr = goffice.Bool(b)
 }
 
 // SetSolidFill controls the text color of a run.

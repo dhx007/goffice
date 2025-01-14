@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/measurement"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // CellProperties are a table cells properties within a document.
@@ -58,7 +51,7 @@ func (c CellProperties) SetWidthPercent(pct float64) {
 	c.x.TcW.WAttr = &wml.ST_MeasurementOrPercent{}
 	c.x.TcW.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
 	// percent value is measured in 1/50'th of a percent
-	c.x.TcW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(pct * 50))
+	c.x.TcW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(pct * 50))
 }
 
 // SetWidth sets the cell width to a specified width.
@@ -67,7 +60,7 @@ func (c CellProperties) SetWidth(d measurement.Distance) {
 	c.x.TcW.TypeAttr = wml.ST_TblWidthDxa
 	c.x.TcW.WAttr = &wml.ST_MeasurementOrPercent{}
 	c.x.TcW.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
-	c.x.TcW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(d / measurement.Twips))
+	c.x.TcW.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(d / measurement.Twips))
 }
 
 // SetShading controls the cell shading.

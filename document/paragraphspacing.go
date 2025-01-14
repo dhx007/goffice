@@ -1,17 +1,10 @@
-// Copyright 2018 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // ParagraphSpacing controls the spacing for a paragraph and its lines.
@@ -22,13 +15,13 @@ type ParagraphSpacing struct {
 // SetBefore sets the spacing that comes before the paragraph.
 func (p ParagraphSpacing) SetBefore(before measurement.Distance) {
 	p.x.BeforeAttr = &sharedTypes.ST_TwipsMeasure{}
-	p.x.BeforeAttr.ST_UnsignedDecimalNumber = unioffice.Uint64(uint64(before / measurement.Twips))
+	p.x.BeforeAttr.ST_UnsignedDecimalNumber = goffice.Uint64(uint64(before / measurement.Twips))
 }
 
 // SetAfter sets the spacing that comes after the paragraph.
 func (p ParagraphSpacing) SetAfter(after measurement.Distance) {
 	p.x.AfterAttr = &sharedTypes.ST_TwipsMeasure{}
-	p.x.AfterAttr.ST_UnsignedDecimalNumber = unioffice.Uint64(uint64(after / measurement.Twips))
+	p.x.AfterAttr.ST_UnsignedDecimalNumber = goffice.Uint64(uint64(after / measurement.Twips))
 }
 
 // SetLineSpacing sets the spacing between lines in a paragraph.
@@ -39,7 +32,7 @@ func (p ParagraphSpacing) SetLineSpacing(d measurement.Distance, rule wml.ST_Lin
 	} else {
 		p.x.LineRuleAttr = rule
 		p.x.LineAttr = &wml.ST_SignedTwipsMeasure{}
-		p.x.LineAttr.Int64 = unioffice.Int64(int64(d / measurement.Twips))
+		p.x.LineAttr.Int64 = goffice.Int64(int64(d / measurement.Twips))
 	}
 }
 
@@ -47,7 +40,7 @@ func (p ParagraphSpacing) SetLineSpacing(d measurement.Distance, rule wml.ST_Lin
 func (p ParagraphSpacing) SetBeforeAuto(b bool) {
 	if b {
 		p.x.BeforeAutospacingAttr = &sharedTypes.ST_OnOff{}
-		p.x.BeforeAutospacingAttr.Bool = unioffice.Bool(true)
+		p.x.BeforeAutospacingAttr.Bool = goffice.Bool(true)
 	} else {
 		p.x.BeforeAutospacingAttr = nil
 	}
@@ -57,7 +50,7 @@ func (p ParagraphSpacing) SetBeforeAuto(b bool) {
 func (p ParagraphSpacing) SetAfterAuto(b bool) {
 	if b {
 		p.x.AfterAutospacingAttr = &sharedTypes.ST_OnOff{}
-		p.x.AfterAutospacingAttr.Bool = unioffice.Bool(true)
+		p.x.AfterAutospacingAttr.Bool = goffice.Bool(true)
 	} else {
 		p.x.AfterAutospacingAttr = nil
 	}

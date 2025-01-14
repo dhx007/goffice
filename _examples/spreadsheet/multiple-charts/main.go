@@ -1,12 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
 	"fmt"
 	"log"
 
-	"goffice/chart"
-	"goffice/spreadsheet"
+	"github.com/dhx007/goffice/chart"
+	"github.com/dhx007/goffice/spreadsheet"
 )
 
 func main() {

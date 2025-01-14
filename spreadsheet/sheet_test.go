@@ -1,10 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet_test
 
 import (
@@ -13,9 +6,9 @@ import (
 	"math/rand"
 	"testing"
 
-	"goffice"
-	"goffice/spreadsheet"
-	"goffice/spreadsheet/reference"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet/reference"
 )
 
 func TestRowNumIncreases(t *testing.T) {
@@ -206,7 +199,7 @@ func TestSheetClearCachedFormula(t *testing.T) {
 	sheet := ss.AddSheet()
 	cell := sheet.Cell("A1")
 	cell.SetFormulaRaw("foo")
-	cell.X().V = unioffice.String("cached-results")
+	cell.X().V = goffice.String("cached-results")
 	sheet.ClearCachedFormulaResults()
 	if cell.X().V != nil {
 		t.Errorf("cached result not cleared")

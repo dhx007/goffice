@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // ParagraphStyleProperties is the styling information for a paragraph.
@@ -42,7 +35,7 @@ func (p ParagraphStyleProperties) AddTabStop(position measurement.Distance, just
 	tab := wml.NewCT_TabStop()
 	tab.LeaderAttr = leader
 	tab.ValAttr = justificaton
-	tab.PosAttr.Int64 = unioffice.Int64(int64(position / measurement.Twips))
+	tab.PosAttr.Int64 = goffice.Int64(int64(position / measurement.Twips))
 	p.x.Tabs.Tab = append(p.x.Tabs.Tab, tab)
 }
 
@@ -56,14 +49,14 @@ func (p ParagraphStyleProperties) SetSpacing(before, after measurement.Distance)
 		p.x.Spacing.BeforeAttr = nil
 	} else {
 		p.x.Spacing.BeforeAttr = &sharedTypes.ST_TwipsMeasure{}
-		p.x.Spacing.BeforeAttr.ST_UnsignedDecimalNumber = unioffice.Uint64(uint64(before / measurement.Twips))
+		p.x.Spacing.BeforeAttr.ST_UnsignedDecimalNumber = goffice.Uint64(uint64(before / measurement.Twips))
 	}
 
 	if after == measurement.Zero {
 		p.x.Spacing.AfterAttr = nil
 	} else {
 		p.x.Spacing.AfterAttr = &sharedTypes.ST_TwipsMeasure{}
-		p.x.Spacing.AfterAttr.ST_UnsignedDecimalNumber = unioffice.Uint64(uint64(after / measurement.Twips))
+		p.x.Spacing.AfterAttr.ST_UnsignedDecimalNumber = goffice.Uint64(uint64(after / measurement.Twips))
 	}
 }
 
@@ -111,7 +104,7 @@ func (p ParagraphStyleProperties) SetLeftIndent(m measurement.Distance) {
 		p.x.Ind.LeftAttr = nil
 	} else {
 		p.x.Ind.LeftAttr = &wml.ST_SignedTwipsMeasure{}
-		p.x.Ind.LeftAttr.Int64 = unioffice.Int64(int64(m / measurement.Twips))
+		p.x.Ind.LeftAttr.Int64 = goffice.Int64(int64(m / measurement.Twips))
 	}
 }
 
@@ -124,7 +117,7 @@ func (p ParagraphStyleProperties) SetStartIndent(m measurement.Distance) {
 		p.x.Ind.StartAttr = nil
 	} else {
 		p.x.Ind.StartAttr = &wml.ST_SignedTwipsMeasure{}
-		p.x.Ind.StartAttr.Int64 = unioffice.Int64(int64(m / measurement.Twips))
+		p.x.Ind.StartAttr.Int64 = goffice.Int64(int64(m / measurement.Twips))
 	}
 }
 
@@ -137,6 +130,6 @@ func (p ParagraphStyleProperties) SetHangingIndent(m measurement.Distance) {
 		p.x.Ind.HangingAttr = nil
 	} else {
 		p.x.Ind.HangingAttr = &sharedTypes.ST_TwipsMeasure{}
-		p.x.Ind.HangingAttr.ST_UnsignedDecimalNumber = unioffice.Uint64(uint64(m / measurement.Twips))
+		p.x.Ind.HangingAttr.ST_UnsignedDecimalNumber = goffice.Uint64(uint64(m / measurement.Twips))
 	}
 }

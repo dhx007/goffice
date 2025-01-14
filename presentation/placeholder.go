@@ -1,19 +1,12 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package presentation
 
 import (
 	"errors"
 
-	"goffice"
-	"goffice/drawing"
-	"goffice/schema/soo/dml"
-	"goffice/schema/soo/pml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/drawing"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	"github.com/dhx007/goffice/schema/soo/pml"
 )
 
 // PlaceHolder is a place holder from a slide.
@@ -56,7 +49,7 @@ func (s PlaceHolder) Clear() {
 	para := dml.NewCT_TextParagraph()
 	s.x.TxBody.P = []*dml.CT_TextParagraph{para}
 	para.EndParaRPr = dml.NewCT_TextCharacterProperties()
-	para.EndParaRPr.LangAttr = unioffice.String("en-US")
+	para.EndParaRPr.LangAttr = goffice.String("en-US")
 }
 
 // Remove removes a placeholder from a presentation.

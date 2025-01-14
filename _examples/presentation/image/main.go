@@ -1,14 +1,13 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
 	"log"
 
-	"goffice/measurement"
+	"github.com/dhx007/goffice/measurement"
 
-	"goffice/common"
+	"github.com/dhx007/goffice/common"
 
-	"goffice/presentation"
+	"github.com/dhx007/goffice/presentation"
 )
 
 func main() {

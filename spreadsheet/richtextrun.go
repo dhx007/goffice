@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/measurement"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // RichTextRun is a segment of text within a cell that is directly formatted.
@@ -39,7 +32,7 @@ func (r RichTextRun) ensureRpr() {
 func (r RichTextRun) SetBold(b bool) {
 	r.ensureRpr()
 	r.x.RPr.B = sml.NewCT_BooleanProperty()
-	r.x.RPr.B.ValAttr = unioffice.Bool(b)
+	r.x.RPr.B.ValAttr = goffice.Bool(b)
 }
 
 // SetColor sets the text color.
@@ -54,7 +47,7 @@ func (r RichTextRun) SetColor(c color.Color) {
 func (r RichTextRun) SetItalic(b bool) {
 	r.ensureRpr()
 	r.x.RPr.I = sml.NewCT_BooleanProperty()
-	r.x.RPr.I.ValAttr = unioffice.Bool(b)
+	r.x.RPr.I.ValAttr = goffice.Bool(b)
 }
 
 // SetUnderline controls if the run is underlined.

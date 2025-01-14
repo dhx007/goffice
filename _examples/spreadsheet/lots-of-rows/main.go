@@ -1,4 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
@@ -9,7 +8,7 @@ import (
 	"runtime/pprof"
 	"time"
 
-	"goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet"
 )
 
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")

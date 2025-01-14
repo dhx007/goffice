@@ -1,11 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 import (
 	"fmt"
 
-	"goffice/spreadsheet"
-	"goffice/spreadsheet/formula"
+	"github.com/dhx007/goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet/formula"
 )
 
 func main() {

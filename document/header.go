@@ -1,19 +1,12 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
 	"errors"
 	"fmt"
 
-	"goffice"
-	"goffice/common"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // Header is a header for a document section.
@@ -124,7 +117,7 @@ func (h Header) AddImage(i common.Image) (common.ImageRef, error) {
 
 	h.d.Images = append(h.d.Images, r)
 	fn := fmt.Sprintf("media/image%d.%s", len(h.d.Images), i.Format)
-	rel := hdrRels.AddRelationship(fn, unioffice.ImageType)
+	rel := hdrRels.AddRelationship(fn, goffice.ImageType)
 	r.SetRelID(rel.X().IdAttr)
 	return r, nil
 }

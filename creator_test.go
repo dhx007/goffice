@@ -1,11 +1,4 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
-package unioffice_test
+package goffice_test
 
 import (
 	"bytes"
@@ -15,24 +8,24 @@ import (
 	"strings"
 	"testing"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 
-	"goffice/schema/soo/wml"
-	"goffice/zippkg"
+	"github.com/dhx007/goffice/schema/soo/wml"
+	"github.com/dhx007/goffice/zippkg"
 )
 
 func TestCreatorUnknownType(t *testing.T) {
-	el, err := unioffice.CreateElement(xml.StartElement{Name: xml.Name{Local: "foo", Space: "bar"}})
+	el, err := goffice.CreateElement(xml.StartElement{Name: xml.Name{Local: "foo", Space: "bar"}})
 	if el == nil || err != nil {
 		t.Errorf("CreateElement should never return nil: %s", err)
 	}
-	if _, ok := el.(*unioffice.XSDAny); !ok {
+	if _, ok := el.(*goffice.XSDAny); !ok {
 		t.Errorf("CreateElement should return XSDAny for unknown types")
 	}
 }
 
 func TestCreatorKnownType(t *testing.T) {
-	el, err := unioffice.CreateElement(xml.StartElement{Name: xml.Name{Local: "CT_Settings", Space: "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}})
+	el, err := goffice.CreateElement(xml.StartElement{Name: xml.Name{Local: "CT_Settings", Space: "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}})
 	if el == nil || err != nil {
 		t.Errorf("CreateElement should never return nil: %s", err)
 	}

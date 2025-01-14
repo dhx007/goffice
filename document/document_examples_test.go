@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"goffice/document"
+	"github.com/dhx007/goffice/document"
 )
 
 func ExampleNew() {

@@ -1,14 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
-import "goffice/schema/soo/sml"
-import "goffice"
+import (
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
+)
 
 // DefinedName is a named range, formula, etc.
 type DefinedName struct {
@@ -37,10 +32,10 @@ func (d DefinedName) SetContent(s string) {
 
 // SetHidden marks the defined name as hidden.
 func (d DefinedName) SetHidden(b bool) {
-	d.x.HiddenAttr = unioffice.Bool(b)
+	d.x.HiddenAttr = goffice.Bool(b)
 }
 
 // SetHidden marks the defined name as hidden.
 func (d DefinedName) SetLocalSheetID(id uint32) {
-	d.x.LocalSheetIdAttr = unioffice.Uint32(id)
+	d.x.LocalSheetIdAttr = goffice.Uint32(id)
 }

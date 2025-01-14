@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
 	"runtime"
 
-	"goffice"
-	"goffice/common"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // New constructs a new workbook.
@@ -29,19 +22,19 @@ func New() *Workbook {
 	wb.Rels = common.NewRelationships()
 	wb.wbRels = common.NewRelationships()
 
-	wb.Rels.AddRelationship(unioffice.RelativeFilename(unioffice.DocTypeSpreadsheet, "", unioffice.ExtendedPropertiesType, 0), unioffice.ExtendedPropertiesType)
-	wb.Rels.AddRelationship(unioffice.RelativeFilename(unioffice.DocTypeSpreadsheet, "", unioffice.CorePropertiesType, 0), unioffice.CorePropertiesType)
-	wb.Rels.AddRelationship(unioffice.RelativeFilename(unioffice.DocTypeSpreadsheet, "", unioffice.OfficeDocumentType, 0), unioffice.OfficeDocumentType)
-	wb.wbRels.AddRelationship(unioffice.RelativeFilename(unioffice.DocTypeSpreadsheet, unioffice.OfficeDocumentType, unioffice.StylesType, 0), unioffice.StylesType)
+	wb.Rels.AddRelationship(goffice.RelativeFilename(goffice.DocTypeSpreadsheet, "", goffice.ExtendedPropertiesType, 0), goffice.ExtendedPropertiesType)
+	wb.Rels.AddRelationship(goffice.RelativeFilename(goffice.DocTypeSpreadsheet, "", goffice.CorePropertiesType, 0), goffice.CorePropertiesType)
+	wb.Rels.AddRelationship(goffice.RelativeFilename(goffice.DocTypeSpreadsheet, "", goffice.OfficeDocumentType, 0), goffice.OfficeDocumentType)
+	wb.wbRels.AddRelationship(goffice.RelativeFilename(goffice.DocTypeSpreadsheet, goffice.OfficeDocumentType, goffice.StylesType, 0), goffice.StylesType)
 
 	wb.ContentTypes = common.NewContentTypes()
-	wb.ContentTypes.AddDefault("vml", unioffice.VMLDrawingContentType)
-	wb.ContentTypes.AddOverride(unioffice.AbsoluteFilename(unioffice.DocTypeSpreadsheet, unioffice.OfficeDocumentType, 0), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
-	wb.ContentTypes.AddOverride(unioffice.AbsoluteFilename(unioffice.DocTypeSpreadsheet, unioffice.StylesType, 0), unioffice.SMLStyleSheetContentType)
+	wb.ContentTypes.AddDefault("vml", goffice.VMLDrawingContentType)
+	wb.ContentTypes.AddOverride(goffice.AbsoluteFilename(goffice.DocTypeSpreadsheet, goffice.OfficeDocumentType, 0), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
+	wb.ContentTypes.AddOverride(goffice.AbsoluteFilename(goffice.DocTypeSpreadsheet, goffice.StylesType, 0), goffice.SMLStyleSheetContentType)
 
 	wb.SharedStrings = NewSharedStrings()
-	wb.ContentTypes.AddOverride(unioffice.AbsoluteFilename(unioffice.DocTypeSpreadsheet, unioffice.SharedStringsType, 0), unioffice.SharedStringsContentType)
-	wb.wbRels.AddRelationship(unioffice.RelativeFilename(unioffice.DocTypeSpreadsheet, unioffice.OfficeDocumentType, unioffice.SharedStringsType, 0), unioffice.SharedStringsType)
+	wb.ContentTypes.AddOverride(goffice.AbsoluteFilename(goffice.DocTypeSpreadsheet, goffice.SharedStringsType, 0), goffice.SharedStringsContentType)
+	wb.wbRels.AddRelationship(goffice.RelativeFilename(goffice.DocTypeSpreadsheet, goffice.OfficeDocumentType, goffice.SharedStringsType, 0), goffice.SharedStringsType)
 
 	return wb
 }

@@ -1,4 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
 package main
 
 // This example demonstrates outputing all cells in a row of an excel spreadsheet, including empty cells.
@@ -7,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"goffice/spreadsheet"
+	"github.com/dhx007/goffice/spreadsheet"
 )
 
 func main() {

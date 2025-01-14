@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 type WorkbookProtection struct {
@@ -31,7 +24,7 @@ func (p WorkbookProtection) LockStructure(b bool) {
 	if !b {
 		p.x.LockStructureAttr = nil
 	} else {
-		p.x.LockStructureAttr = unioffice.Bool(true)
+		p.x.LockStructureAttr = goffice.Bool(true)
 	}
 }
 
@@ -45,7 +38,7 @@ func (p WorkbookProtection) LockWindow(b bool) {
 	if !b {
 		p.x.LockWindowsAttr = nil
 	} else {
-		p.x.LockWindowsAttr = unioffice.Bool(true)
+		p.x.LockWindowsAttr = goffice.Bool(true)
 	}
 }
 
@@ -64,5 +57,5 @@ func (p WorkbookProtection) SetPassword(pw string) {
 
 // SetPasswordHash sets the password hash to the input.
 func (p WorkbookProtection) SetPasswordHash(pwHash string) {
-	p.x.WorkbookPasswordAttr = unioffice.String(pwHash)
+	p.x.WorkbookPasswordAttr = goffice.String(pwHash)
 }

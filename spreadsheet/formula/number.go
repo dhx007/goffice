@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package formula
 
 import (
 	"strconv"
 
-	"goffice"
-	"goffice/spreadsheet/update"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/spreadsheet/update"
 )
 
 // Number is a nubmer expression.
@@ -23,7 +16,7 @@ type Number struct {
 func NewNumber(v string) Expression {
 	f, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		unioffice.Log("error parsing formula number %s: %s", v, err)
+		goffice.Log("error parsing formula number %s: %s", v, err)
 	}
 	return Number{f}
 }

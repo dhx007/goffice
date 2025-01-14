@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"strings"
 
-	"goffice"
-	"goffice/zippkg"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/zippkg"
 )
 
 // AddImageToZip adds an image (either from bytes or from disk) and adds it to the zip file.
-func AddImageToZip(z *zip.Writer, img ImageRef, imageNum int, dt unioffice.DocType) error {
-	filename := unioffice.AbsoluteImageFilename(dt, imageNum, strings.ToLower(img.Format()))
+func AddImageToZip(z *zip.Writer, img ImageRef, imageNum int, dt goffice.DocType) error {
+	filename := goffice.AbsoluteImageFilename(dt, imageNum, strings.ToLower(img.Format()))
 	if img.Data() != nil && len(*img.Data()) > 0 {
 		if err := zippkg.AddFileFromBytes(z, filename, *img.Data()); err != nil {
 			return err

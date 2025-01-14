@@ -1,16 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // Numbering is the document wide numbering styles contained in numbering.xml.
@@ -61,15 +54,15 @@ func (n Numbering) InitializeDefault() {
 		lvl.Suff.ValAttr = wml.ST_LevelSuffixNothing
 
 		lvl.LvlText = wml.NewCT_LevelText()
-		lvl.LvlText.ValAttr = unioffice.String("")
+		lvl.LvlText.ValAttr = goffice.String("")
 
 		lvl.LvlJc = wml.NewCT_Jc()
 		lvl.LvlJc.ValAttr = wml.ST_JcLeft
 
 		lvl.RPr = wml.NewCT_RPr()
 		lvl.RPr.RFonts = wml.NewCT_Fonts()
-		lvl.RPr.RFonts.AsciiAttr = unioffice.String("Symbol")
-		lvl.RPr.RFonts.HAnsiAttr = unioffice.String("Symbol")
+		lvl.RPr.RFonts.AsciiAttr = goffice.String("Symbol")
+		lvl.RPr.RFonts.HAnsiAttr = goffice.String("Symbol")
 		lvl.RPr.RFonts.HintAttr = wml.ST_HintDefault
 
 		lvl.PPr = wml.NewCT_PPrGeneral()
@@ -77,9 +70,9 @@ func (n Numbering) InitializeDefault() {
 		indent := int64(i*indentDelta + indentStart)
 		lvl.PPr.Ind = wml.NewCT_Ind()
 		lvl.PPr.Ind.LeftAttr = &wml.ST_SignedTwipsMeasure{}
-		lvl.PPr.Ind.LeftAttr.Int64 = unioffice.Int64(indent)
+		lvl.PPr.Ind.LeftAttr.Int64 = goffice.Int64(indent)
 		lvl.PPr.Ind.HangingAttr = &sharedTypes.ST_TwipsMeasure{}
-		lvl.PPr.Ind.HangingAttr.ST_UnsignedDecimalNumber = unioffice.Uint64(uint64(hangingIndent))
+		lvl.PPr.Ind.HangingAttr.ST_UnsignedDecimalNumber = goffice.Uint64(uint64(hangingIndent))
 
 		abs.Lvl = append(abs.Lvl, lvl)
 	}

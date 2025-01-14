@@ -3,9 +3,9 @@ package presentation
 import (
 	"testing"
 
-	"goffice/common"
-	"goffice/schema/soo/dml"
-	"goffice/schema/soo/pml"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	"github.com/dhx007/goffice/schema/soo/pml"
 )
 
 func TestRemoveChoicesWithPics(t *testing.T) {

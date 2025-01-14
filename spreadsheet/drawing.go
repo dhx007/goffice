@@ -1,25 +1,18 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
 	"fmt"
 
-	"goffice"
-	"goffice/chart"
-	"goffice/color"
-	"goffice/common"
-	"goffice/measurement"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/chart"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/measurement"
 
-	"goffice/schema/soo/dml"
-	c "goffice/schema/soo/dml/chart"
-	crt "goffice/schema/soo/dml/chart"
-	sd "goffice/schema/soo/dml/spreadsheetDrawing"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	c "github.com/dhx007/goffice/schema/soo/dml/chart"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
+	sd "github.com/dhx007/goffice/schema/soo/dml/spreadsheetDrawing"
 )
 
 // Drawing is a drawing overlay on a sheet.  Only a single drawing is allowed
@@ -41,16 +34,16 @@ func (d Drawing) AddChart(at AnchorType) (chart.Chart, Anchor) {
 	chartSpace := crt.NewChartSpace()
 	d.wb.charts = append(d.wb.charts, chartSpace)
 
-	fn := unioffice.AbsoluteFilename(unioffice.DocTypeSpreadsheet, unioffice.ChartContentType, len(d.wb.charts))
-	d.wb.ContentTypes.AddOverride(fn, unioffice.ChartContentType)
+	fn := goffice.AbsoluteFilename(goffice.DocTypeSpreadsheet, goffice.ChartContentType, len(d.wb.charts))
+	d.wb.ContentTypes.AddOverride(fn, goffice.ChartContentType)
 
 	var chartID string
 
 	// add relationship from drawing to the chart
 	for i, dr := range d.wb.drawings {
 		if dr == d.x {
-			fn := unioffice.RelativeFilename(unioffice.DocTypeSpreadsheet, unioffice.DrawingType, unioffice.ChartType, len(d.wb.charts))
-			rel := d.wb.drawingRels[i].AddRelationship(fn, unioffice.ChartType)
+			fn := goffice.RelativeFilename(goffice.DocTypeSpreadsheet, goffice.DrawingType, goffice.ChartType, len(d.wb.charts))
+			rel := d.wb.drawingRels[i].AddRelationship(fn, goffice.ChartType)
 			chartID = rel.ID()
 			break
 		}
@@ -91,7 +84,7 @@ func (d Drawing) AddChart(at AnchorType) (chart.Chart, Anchor) {
 	gf.Graphic.GraphicData.UriAttr = "http://schemas.openxmlformats.org/drawingml/2006/chart"
 	c := c.NewChart()
 	c.IdAttr = chartID
-	gf.Graphic.GraphicData.Any = []unioffice.Any{c}
+	gf.Graphic.GraphicData.Any = []goffice.Any{c}
 
 	//chart.Chart.PlotVisOnly = crt.NewCT_Boolean()
 	//chart.Chart.PlotVisOnly.ValAttr = gooxml.Bool(true)
@@ -117,7 +110,7 @@ func (d Drawing) AddImage(img common.ImageRef, at AnchorType) Anchor {
 	for i, dr := range d.wb.drawings {
 		if dr == d.x {
 			fn := fmt.Sprintf("../media/image%d.%s", imgIdx, img.Format())
-			rel := d.wb.drawingRels[i].AddRelationship(fn, unioffice.ImageType)
+			rel := d.wb.drawingRels[i].AddRelationship(fn, goffice.ImageType)
 			imgID = rel.ID()
 			break
 		}
@@ -152,13 +145,13 @@ func (d Drawing) AddImage(img common.ImageRef, at AnchorType) Anchor {
 	pic.NvPicPr.CNvPr.IdAttr = uint32(len(d.x.EG_Anchor))
 	pic.NvPicPr.CNvPr.NameAttr = "Image"
 	pic.BlipFill.Blip = dml.NewCT_Blip()
-	pic.BlipFill.Blip.EmbedAttr = unioffice.String(imgID)
+	pic.BlipFill.Blip.EmbedAttr = goffice.String(imgID)
 	pic.BlipFill.Stretch = dml.NewCT_StretchInfoProperties()
 	pic.SpPr = dml.NewCT_ShapeProperties()
 	pic.SpPr.Xfrm = dml.NewCT_Transform2D()
 	pic.SpPr.Xfrm.Off = dml.NewCT_Point2D()
-	pic.SpPr.Xfrm.Off.XAttr.ST_CoordinateUnqualified = unioffice.Int64(0)
-	pic.SpPr.Xfrm.Off.YAttr.ST_CoordinateUnqualified = unioffice.Int64(0)
+	pic.SpPr.Xfrm.Off.XAttr.ST_CoordinateUnqualified = goffice.Int64(0)
+	pic.SpPr.Xfrm.Off.YAttr.ST_CoordinateUnqualified = goffice.Int64(0)
 	pic.SpPr.Xfrm.Ext = dml.NewCT_PositiveSize2D()
 	pic.SpPr.Xfrm.Ext.CxAttr = int64(float64(img.Size().X*measurement.Pixel72) / measurement.EMU)
 	pic.SpPr.Xfrm.Ext.CyAttr = int64(float64(img.Size().Y*measurement.Pixel72) / measurement.EMU)
@@ -190,12 +183,12 @@ func defaultTwoCellAnchor() *sd.CT_TwoCellAnchor {
 	tca.From.Col = 5
 	tca.From.Row = 0
 	// Mac Excel requires the offsets be present
-	tca.From.ColOff.ST_CoordinateUnqualified = unioffice.Int64(0)
-	tca.From.RowOff.ST_CoordinateUnqualified = unioffice.Int64(0)
+	tca.From.ColOff.ST_CoordinateUnqualified = goffice.Int64(0)
+	tca.From.RowOff.ST_CoordinateUnqualified = goffice.Int64(0)
 	tca.To.Col = 10
 	tca.To.Row = 20
-	tca.To.ColOff.ST_CoordinateUnqualified = unioffice.Int64(0)
-	tca.To.RowOff.ST_CoordinateUnqualified = unioffice.Int64(0)
+	tca.To.ColOff.ST_CoordinateUnqualified = goffice.Int64(0)
+	tca.To.RowOff.ST_CoordinateUnqualified = goffice.Int64(0)
 
 	return tca
 }

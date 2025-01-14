@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"goffice/color"
-	"goffice/schema/soo/pml"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/schema/soo/pml"
 
-	"goffice/presentation"
+	"github.com/dhx007/goffice/presentation"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 	ph, _ := sld.GetPlaceholder(pml.ST_PlaceholderTypeTitle)
 	ph.SetText("Using gooxml")
 	ph, _ = sld.GetPlaceholder(pml.ST_PlaceholderTypeBody)
-	ph.SetText("Created with goffice/")
+	ph.SetText("Created with github.com/dhx007/goffice/")
 
 	tac, _ := ppt.GetLayoutByName("Title and Content")
 

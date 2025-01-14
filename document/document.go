@@ -1,16 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
 	"archive/zip"
 	"errors"
-	"flag"
 	"fmt"
 	"image"
 	"image/jpeg"
@@ -20,17 +12,14 @@ import (
 	"path/filepath"
 	"strings"
 
-	"goffice"
-	"goffice/color"
-	"goffice/common"
-	"goffice/common/license"
-	"goffice/measurement"
-	"goffice/zippkg"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/zippkg"
 
-	"goffice/schema/soo/dml"
-	st "goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/pkg/relationships"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	st "github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/pkg/relationships"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // Document is a text document that can be written out in the OOXML .docx
@@ -72,23 +61,23 @@ func New() *Document {
 	d.ContentTypes.AddOverride("/word/document.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml")
 
 	d.Settings = NewSettings()
-	d.docRels.AddRelationship("settings.xml", unioffice.SettingsType)
+	d.docRels.AddRelationship("settings.xml", goffice.SettingsType)
 	d.ContentTypes.AddOverride("/word/settings.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml")
 
 	d.Rels = common.NewRelationships()
-	d.Rels.AddRelationship(unioffice.RelativeFilename(unioffice.DocTypeDocument, "", unioffice.CorePropertiesType, 0), unioffice.CorePropertiesType)
-	d.Rels.AddRelationship("docProps/app.xml", unioffice.ExtendedPropertiesType)
-	d.Rels.AddRelationship("word/document.xml", unioffice.OfficeDocumentType)
+	d.Rels.AddRelationship(goffice.RelativeFilename(goffice.DocTypeDocument, "", goffice.CorePropertiesType, 0), goffice.CorePropertiesType)
+	d.Rels.AddRelationship("docProps/app.xml", goffice.ExtendedPropertiesType)
+	d.Rels.AddRelationship("word/document.xml", goffice.OfficeDocumentType)
 
 	d.Numbering = NewNumbering()
 	d.Numbering.InitializeDefault()
 	d.ContentTypes.AddOverride("/word/numbering.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml")
-	d.docRels.AddRelationship("numbering.xml", unioffice.NumberingType)
+	d.docRels.AddRelationship("numbering.xml", goffice.NumberingType)
 
 	d.Styles = NewStyles()
 	d.Styles.InitializeDefault()
 	d.ContentTypes.AddOverride("/word/styles.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml")
-	d.docRels.AddRelationship("styles.xml", unioffice.StylesType)
+	d.docRels.AddRelationship("styles.xml", goffice.StylesType)
 
 	d.x.Body = wml.NewCT_Body()
 	return d
@@ -109,7 +98,7 @@ func (d *Document) createCustomProperties() {
 
 func (d *Document) addCustomRelationships() {
 	d.ContentTypes.AddOverride("/docProps/custom.xml", "application/vnd.openxmlformats-officedocument.custom-properties+xml")
-	d.Rels.AddRelationship("docProps/custom.xml", unioffice.CustomPropertiesType)
+	d.Rels.AddRelationship("docProps/custom.xml", goffice.CustomPropertiesType)
 }
 
 // X returns the inner wrapped XML type.
@@ -123,7 +112,7 @@ func (d *Document) AddHeader() Header {
 	hdr := wml.NewHdr()
 	d.headers = append(d.headers, hdr)
 	path := fmt.Sprintf("header%d.xml", len(d.headers))
-	d.docRels.AddRelationship(path, unioffice.HeaderType)
+	d.docRels.AddRelationship(path, goffice.HeaderType)
 
 	d.ContentTypes.AddOverride("/word/"+path, "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml")
 	d.hdrRels = append(d.hdrRels, common.NewRelationships())
@@ -155,7 +144,7 @@ func (d *Document) AddFooter() Footer {
 	ftr := wml.NewFtr()
 	d.footers = append(d.footers, ftr)
 	path := fmt.Sprintf("footer%d.xml", len(d.footers))
-	d.docRels.AddRelationship(path, unioffice.FooterType)
+	d.docRels.AddRelationship(path, goffice.FooterType)
 
 	d.ContentTypes.AddOverride("/word/"+path, "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml")
 	d.ftrRels = append(d.ftrRels, common.NewRelationships())
@@ -176,23 +165,23 @@ func (d *Document) BodySection() Section {
 // Save writes the document to an io.Writer in the Zip package format.
 func (d *Document) Save(w io.Writer) error {
 	if err := d.x.Validate(); err != nil {
-		unioffice.Log("validation error in document: %s", err)
+		goffice.Log("validation error in document: %s", err)
 	}
-	dt := unioffice.DocTypeDocument
+	dt := goffice.DocTypeDocument
 
 	z := zip.NewWriter(w)
 	defer z.Close()
-	if err := zippkg.MarshalXML(z, unioffice.BaseRelsFilename, d.Rels.X()); err != nil {
+	if err := zippkg.MarshalXML(z, goffice.BaseRelsFilename, d.Rels.X()); err != nil {
 		return err
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.ExtendedPropertiesType, d.AppProperties.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.ExtendedPropertiesType, d.AppProperties.X()); err != nil {
 		return err
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.CorePropertiesType, d.CoreProperties.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.CorePropertiesType, d.CoreProperties.X()); err != nil {
 		return err
 	}
 	if d.CustomProperties.X() != nil {
-		if err := zippkg.MarshalXMLByType(z, dt, unioffice.CustomPropertiesType, d.CustomProperties.X()); err != nil {
+		if err := zippkg.MarshalXMLByType(z, dt, goffice.CustomPropertiesType, d.CustomProperties.X()); err != nil {
 			return err
 		}
 	}
@@ -205,10 +194,10 @@ func (d *Document) Save(w io.Writer) error {
 			return err
 		}
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.SettingsType, d.Settings.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.SettingsType, d.Settings.X()); err != nil {
 		return err
 	}
-	documentFn := unioffice.AbsoluteFilename(dt, unioffice.OfficeDocumentType, 0)
+	documentFn := goffice.AbsoluteFilename(dt, goffice.OfficeDocumentType, 0)
 	if err := zippkg.MarshalXML(z, documentFn, d.x); err != nil {
 		return err
 	}
@@ -217,41 +206,41 @@ func (d *Document) Save(w io.Writer) error {
 	}
 
 	if d.Numbering.X() != nil {
-		if err := zippkg.MarshalXMLByType(z, dt, unioffice.NumberingType, d.Numbering.X()); err != nil {
+		if err := zippkg.MarshalXMLByType(z, dt, goffice.NumberingType, d.Numbering.X()); err != nil {
 			return err
 		}
 	}
-	if err := zippkg.MarshalXMLByType(z, dt, unioffice.StylesType, d.Styles.X()); err != nil {
+	if err := zippkg.MarshalXMLByType(z, dt, goffice.StylesType, d.Styles.X()); err != nil {
 		return err
 	}
 
 	if d.webSettings != nil {
-		if err := zippkg.MarshalXMLByType(z, dt, unioffice.WebSettingsType, d.webSettings); err != nil {
+		if err := zippkg.MarshalXMLByType(z, dt, goffice.WebSettingsType, d.webSettings); err != nil {
 			return err
 		}
 	}
 	if d.fontTable != nil {
-		if err := zippkg.MarshalXMLByType(z, dt, unioffice.FontTableType, d.fontTable); err != nil {
+		if err := zippkg.MarshalXMLByType(z, dt, goffice.FontTableType, d.fontTable); err != nil {
 			return err
 		}
 	}
 	if d.endNotes != nil {
-		if err := zippkg.MarshalXMLByType(z, dt, unioffice.EndNotesType, d.endNotes); err != nil {
+		if err := zippkg.MarshalXMLByType(z, dt, goffice.EndNotesType, d.endNotes); err != nil {
 			return err
 		}
 	}
 	if d.footNotes != nil {
-		if err := zippkg.MarshalXMLByType(z, dt, unioffice.FootNotesType, d.footNotes); err != nil {
+		if err := zippkg.MarshalXMLByType(z, dt, goffice.FootNotesType, d.footNotes); err != nil {
 			return err
 		}
 	}
 	for i, thm := range d.themes {
-		if err := zippkg.MarshalXMLByTypeIndex(z, dt, unioffice.ThemeType, i+1, thm); err != nil {
+		if err := zippkg.MarshalXMLByTypeIndex(z, dt, goffice.ThemeType, i+1, thm); err != nil {
 			return err
 		}
 	}
 	for i, hdr := range d.headers {
-		fn := unioffice.AbsoluteFilename(dt, unioffice.HeaderType, i+1)
+		fn := goffice.AbsoluteFilename(dt, goffice.HeaderType, i+1)
 		if err := zippkg.MarshalXML(z, fn, hdr); err != nil {
 			return err
 		}
@@ -260,8 +249,8 @@ func (d *Document) Save(w io.Writer) error {
 		}
 	}
 	for i, ftr := range d.footers {
-		fn := unioffice.AbsoluteFilename(dt, unioffice.FooterType, i+1)
-		if err := zippkg.MarshalXMLByTypeIndex(z, dt, unioffice.FooterType, i+1, ftr); err != nil {
+		fn := goffice.AbsoluteFilename(dt, goffice.FooterType, i+1)
+		if err := zippkg.MarshalXMLByTypeIndex(z, dt, goffice.FooterType, i+1, ftr); err != nil {
 			return err
 		}
 		if !d.ftrRels[i].IsEmpty() {
@@ -270,12 +259,12 @@ func (d *Document) Save(w io.Writer) error {
 	}
 
 	for i, img := range d.Images {
-		if err := common.AddImageToZip(z, img, i+1, unioffice.DocTypeDocument); err != nil {
+		if err := common.AddImageToZip(z, img, i+1, goffice.DocTypeDocument); err != nil {
 			return err
 		}
 	}
 
-	if err := zippkg.MarshalXML(z, unioffice.ContentTypesFilename, d.ContentTypes.X()); err != nil {
+	if err := zippkg.MarshalXML(z, goffice.ContentTypesFilename, d.ContentTypes.X()); err != nil {
 		return err
 	}
 	if err := d.WriteExtraFiles(z); err != nil {
@@ -654,8 +643,8 @@ func Read(r io.ReaderAt, size int64) (*Document, error) {
 	decMap := zippkg.DecodeMap{}
 	decMap.SetOnNewRelationshipFunc(doc.onNewRelationship)
 	// we should discover all contents by starting with these two files
-	decMap.AddTarget(unioffice.ContentTypesFilename, doc.ContentTypes.X(), "", 0)
-	decMap.AddTarget(unioffice.BaseRelsFilename, doc.Rels.X(), "", 0)
+	decMap.AddTarget(goffice.ContentTypesFilename, doc.ContentTypes.X(), "", 0)
+	decMap.AddTarget(goffice.BaseRelsFilename, doc.Rels.X(), "", 0)
 	if err := decMap.Decode(files); err != nil {
 		return nil, err
 	}
@@ -768,7 +757,7 @@ func (d *Document) AddImage(i common.Image) (common.ImageRef, error) {
 
 	d.Images = append(d.Images, r)
 	fn := fmt.Sprintf("media/image%d.%s", len(d.Images), i.Format)
-	rel := d.docRels.AddRelationship(fn, unioffice.ImageType)
+	rel := d.docRels.AddRelationship(fn, goffice.ImageType)
 	d.ContentTypes.EnsureDefault("png", "image/png")
 	d.ContentTypes.EnsureDefault("jpeg", "image/jpeg")
 	d.ContentTypes.EnsureDefault("jpg", "image/jpeg")
@@ -843,29 +832,29 @@ func (d *Document) FormFields() []FormField {
 
 func (d *Document) onNewRelationship(decMap *zippkg.DecodeMap, target, typ string, files []*zip.File, rel *relationships.Relationship, src zippkg.Target) error {
 
-	dt := unioffice.DocTypeDocument
+	dt := goffice.DocTypeDocument
 
 	switch typ {
-	case unioffice.OfficeDocumentType, unioffice.OfficeDocumentTypeStrict:
+	case goffice.OfficeDocumentType, goffice.OfficeDocumentTypeStrict:
 		d.x = wml.NewDocument()
 		decMap.AddTarget(target, d.x, typ, 0)
 		// look for the document relationships file as well
 		decMap.AddTarget(zippkg.RelationsPathFor(target), d.docRels.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.CorePropertiesType:
+	case goffice.CorePropertiesType:
 		decMap.AddTarget(target, d.CoreProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.CustomPropertiesType:
+	case goffice.CustomPropertiesType:
 		decMap.AddTarget(target, d.CustomProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.ExtendedPropertiesType, unioffice.ExtendedPropertiesTypeStrict:
+	case goffice.ExtendedPropertiesType, goffice.ExtendedPropertiesTypeStrict:
 		decMap.AddTarget(target, d.AppProperties.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.ThumbnailType, unioffice.ThumbnailTypeStrict:
+	case goffice.ThumbnailType, goffice.ThumbnailTypeStrict:
 		// read our thumbnail
 		for i, f := range files {
 			if f == nil {
@@ -885,69 +874,69 @@ func (d *Document) onNewRelationship(decMap *zippkg.DecodeMap, target, typ strin
 			}
 		}
 
-	case unioffice.SettingsType, unioffice.SettingsTypeStrict:
+	case goffice.SettingsType, goffice.SettingsTypeStrict:
 		decMap.AddTarget(target, d.Settings.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.NumberingType, unioffice.NumberingTypeStrict:
+	case goffice.NumberingType, goffice.NumberingTypeStrict:
 		d.Numbering = NewNumbering()
 		decMap.AddTarget(target, d.Numbering.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.StylesType, unioffice.StylesTypeStrict:
+	case goffice.StylesType, goffice.StylesTypeStrict:
 		d.Styles.Clear()
 		decMap.AddTarget(target, d.Styles.X(), typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.HeaderType, unioffice.HeaderTypeStrict:
+	case goffice.HeaderType, goffice.HeaderTypeStrict:
 		hdr := wml.NewHdr()
 		decMap.AddTarget(target, hdr, typ, uint32(len(d.headers)))
 		d.headers = append(d.headers, hdr)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(d.headers))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(d.headers))
 
 		// look for header rels
 		hdrRel := common.NewRelationships()
 		decMap.AddTarget(zippkg.RelationsPathFor(target), hdrRel.X(), typ, 0)
 		d.hdrRels = append(d.hdrRels, hdrRel)
 
-	case unioffice.FooterType, unioffice.FooterTypeStrict:
+	case goffice.FooterType, goffice.FooterTypeStrict:
 		ftr := wml.NewFtr()
 		decMap.AddTarget(target, ftr, typ, uint32(len(d.footers)))
 		d.footers = append(d.footers, ftr)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(d.footers))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(d.footers))
 
 		// look for footer rels
 		ftrRel := common.NewRelationships()
 		decMap.AddTarget(zippkg.RelationsPathFor(target), ftrRel.X(), typ, 0)
 		d.ftrRels = append(d.ftrRels, ftrRel)
 
-	case unioffice.ThemeType, unioffice.ThemeTypeStrict:
+	case goffice.ThemeType, goffice.ThemeTypeStrict:
 		thm := dml.NewTheme()
 		decMap.AddTarget(target, thm, typ, uint32(len(d.themes)))
 		d.themes = append(d.themes, thm)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(d.themes))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(d.themes))
 
-	case unioffice.WebSettingsType, unioffice.WebSettingsTypeStrict:
+	case goffice.WebSettingsType, goffice.WebSettingsTypeStrict:
 		d.webSettings = wml.NewWebSettings()
 		decMap.AddTarget(target, d.webSettings, typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.FontTableType, unioffice.FontTableTypeStrict:
+	case goffice.FontTableType, goffice.FontTableTypeStrict:
 		d.fontTable = wml.NewFonts()
 		decMap.AddTarget(target, d.fontTable, typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.EndNotesType, unioffice.EndNotesTypeStrict:
+	case goffice.EndNotesType, goffice.EndNotesTypeStrict:
 		d.endNotes = wml.NewEndnotes()
 		decMap.AddTarget(target, d.endNotes, typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.FootNotesType, unioffice.FootNotesTypeStrict:
+	case goffice.FootNotesType, goffice.FootNotesTypeStrict:
 		d.footNotes = wml.NewFootnotes()
 		decMap.AddTarget(target, d.footNotes, typ, 0)
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, 0)
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, 0)
 
-	case unioffice.ImageType, unioffice.ImageTypeStrict:
+	case goffice.ImageType, goffice.ImageTypeStrict:
 		var iref common.ImageRef
 		for i, f := range files {
 			if f == nil {
@@ -969,14 +958,14 @@ func (d *Document) onNewRelationship(decMap *zippkg.DecodeMap, target, typ strin
 		}
 
 		ext := "." + strings.ToLower(iref.Format())
-		rel.TargetAttr = unioffice.RelativeFilename(dt, src.Typ, typ, len(d.Images))
+		rel.TargetAttr = goffice.RelativeFilename(dt, src.Typ, typ, len(d.Images))
 		// ensure we don't change image formats
 		if newExt := filepath.Ext(rel.TargetAttr); newExt != ext {
 			rel.TargetAttr = rel.TargetAttr[0:len(rel.TargetAttr)-len(newExt)] + ext
 		}
 
 	default:
-		unioffice.Log("unsupported relationship type: %s tgt: %s", typ, target)
+		goffice.Log("unsupported relationship type: %s tgt: %s", typ, target)
 	}
 	return nil
 }
@@ -1138,14 +1127,14 @@ func (d Document) Bookmarks() []Bookmark {
 }
 
 // SetConformance sets conformance attribute of the document
-// as one of these values from goffice/schema/soo/ofc/sharedTypes:
+// as one of these values from github.com/dhx007/goffice/schema/soo/ofc/sharedTypes:
 // ST_ConformanceClassUnset, ST_ConformanceClassStrict or ST_ConformanceClassTransitional.
 func (d Document) SetConformance(conformanceAttr st.ST_ConformanceClass) {
 	d.x.ConformanceAttr = conformanceAttr
 }
 
 // SetStrict is a shortcut for document.SetConformance,
-// as one of these values from goffice/schema/soo/ofc/sharedTypes:
+// as one of these values from github.com/dhx007/goffice/schema/soo/ofc/sharedTypes:
 // ST_ConformanceClassUnset, ST_ConformanceClassStrict or ST_ConformanceClassTransitional.
 func (d Document) SetStrict(strict bool) {
 	if strict {

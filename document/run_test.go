@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
 	"testing"
 
-	"goffice"
-	"goffice/schema/soo/ofc/sharedTypes"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/ofc/sharedTypes"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 func TestRunClear(t *testing.T) {
@@ -46,13 +39,13 @@ func TestRunPropertiesBold(t *testing.T) {
 	}
 	r.x.B = wml.NewCT_OnOff()
 	r.x.B.ValAttr = &sharedTypes.ST_OnOff{}
-	r.x.B.ValAttr.Bool = unioffice.Bool(false)
+	r.x.B.ValAttr.Bool = goffice.Bool(false)
 
 	if r.IsBold() {
 		t.Errorf("expected IsBold = false with false bool value")
 	}
 
-	r.x.B.ValAttr.Bool = unioffice.Bool(true)
+	r.x.B.ValAttr.Bool = goffice.Bool(true)
 	if !r.IsBold() {
 		t.Errorf("expected IsBold = true with true bool value")
 	}

@@ -1,5 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-
 package main
 
 import (
@@ -7,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"goffice/document"
+	"github.com/dhx007/goffice/document"
 )
 
 func main() {

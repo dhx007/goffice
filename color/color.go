@@ -1,14 +1,7 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package color
 
 import (
-	"goffice"
+	"github.com/dhx007/goffice"
 )
 
 // Color is a 24 bit color that can be converted to
@@ -38,11 +31,11 @@ func (c Color) IsAuto() bool {
 // AsRGBString is used by the various wrappers to return a pointer
 // to a string containing a six digit hex RGB value.
 func (c Color) AsRGBString() *string {
-	return unioffice.Stringf("%02x%02x%02x", c.r, c.g, c.b)
+	return goffice.Stringf("%02x%02x%02x", c.r, c.g, c.b)
 }
 
 // AsRGBAString is used by the various wrappers to return a pointer
 // to a string containing a six digit hex RGB value.
 func (c Color) AsRGBAString() *string {
-	return unioffice.Stringf("%02x%02x%02x%02x", c.a, c.r, c.g, c.b)
+	return goffice.Stringf("%02x%02x%02x%02x", c.a, c.r, c.g, c.b)
 }

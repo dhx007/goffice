@@ -1,10 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package formula
 
 import (
@@ -14,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"goffice"
-	"goffice/internal/wildcard"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/internal/wildcard"
 )
 
 func init() {
@@ -287,7 +280,7 @@ func checkIfsRanges(args []Result, sumRange bool, fnName string) Result {
 	return empty
 }
 
-//getIfsMatch returns an array of indexes of cells which meets all *IFS criterias
+// getIfsMatch returns an array of indexes of cells which meets all *IFS criterias
 func getIfsMatch(args []Result) []rangeIndex {
 	toLook := []rangeIndex{}
 	argsNum := len(args)
@@ -403,7 +396,7 @@ func max(args []Result, isMaxA bool) Result {
 				v = crit
 			}
 		default:
-			unioffice.Log("unhandled "+fName+"() argument type %s", a.Type)
+			goffice.Log("unhandled "+fName+"() argument type %s", a.Type)
 		}
 	}
 	if v == -math.MaxFloat64 {
@@ -454,7 +447,7 @@ func min(args []Result, isMinA bool) Result {
 				v = crit
 			}
 		default:
-			unioffice.Log("unhandled "+fName+"() argument type %s", a.Type)
+			goffice.Log("unhandled "+fName+"() argument type %s", a.Type)
 		}
 	}
 	if v == math.MaxFloat64 {
@@ -490,7 +483,7 @@ func extractNumbers(args []Result) []float64 {
 		case ResultTypeString:
 			// treated as zero by Excel
 		default:
-			unioffice.Log("unhandled extractNumbers argument type %s", a.Type)
+			goffice.Log("unhandled extractNumbers argument type %s", a.Type)
 		}
 	}
 	return values

@@ -1,18 +1,11 @@
 //line lexer.rl:1
 
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package format
 
 import (
 	"io"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 )
 
 //line lexer.go:20
@@ -1935,6 +1928,6 @@ func (l *Lexer) Lex(r io.Reader) {
 	}
 	_ = eof
 	if cs == format_error {
-		unioffice.Log("format parse error")
+		goffice.Log("format parse error")
 	}
 }

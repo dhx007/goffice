@@ -1,23 +1,16 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package presentation
 
 import (
 	"errors"
 	"fmt"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 
-	"goffice/common"
-	"goffice/measurement"
-	"goffice/schema/soo/dml"
+	"github.com/dhx007/goffice/common"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/dml"
 
-	"goffice/schema/soo/pml"
+	"github.com/dhx007/goffice/schema/soo/pml"
 )
 
 // Slide represents a slide of a presentation.
@@ -132,14 +125,14 @@ func (s Slide) AddImage(img common.ImageRef) Image {
 
 	pic.NvPicPr.CNvPicPr = dml.NewCT_NonVisualPictureProperties()
 	pic.NvPicPr.CNvPicPr.PicLocks = dml.NewCT_PictureLocking()
-	pic.NvPicPr.CNvPicPr.PicLocks.NoChangeAspectAttr = unioffice.Bool(true)
+	pic.NvPicPr.CNvPicPr.PicLocks.NoChangeAspectAttr = goffice.Bool(true)
 
 	pic.BlipFill = dml.NewCT_BlipFillProperties()
 
 	pic.BlipFill.Blip = dml.NewCT_Blip()
 
 	imgID := s.AddImageToRels(img)
-	pic.BlipFill.Blip.EmbedAttr = unioffice.String(imgID)
+	pic.BlipFill.Blip.EmbedAttr = goffice.String(imgID)
 
 	pic.BlipFill.Stretch = dml.NewCT_StretchInfoProperties()
 	pic.BlipFill.Stretch.FillRect = dml.NewCT_RelativeRect()
@@ -170,7 +163,7 @@ func (s Slide) AddImageToRels(img common.ImageRef) string {
 	for i, os := range s.p.Slides() {
 		if os.x == s.x {
 			fn := fmt.Sprintf("../media/image%d.%s", imgIdx, img.Format())
-			rel := s.p.slideRels[i].AddRelationship(fn, unioffice.ImageType)
+			rel := s.p.slideRels[i].AddRelationship(fn, goffice.ImageType)
 			imgID = rel.ID()
 		}
 	}

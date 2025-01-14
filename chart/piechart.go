@@ -1,14 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package chart
 
-import crt "goffice/schema/soo/dml/chart"
-import "goffice"
+import (
+	"github.com/dhx007/goffice"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
+)
 
 // PieChart is a Pie chart.
 type PieChart struct {
@@ -24,7 +19,7 @@ func (c PieChart) X() *crt.CT_PieChart {
 // InitializeDefaults the bar chart to its defaults
 func (c PieChart) InitializeDefaults() {
 	c.x.VaryColors = crt.NewCT_Boolean()
-	c.x.VaryColors.ValAttr = unioffice.Bool(true)
+	c.x.VaryColors.ValAttr = goffice.Bool(true)
 
 }
 

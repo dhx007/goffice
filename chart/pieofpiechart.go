@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package chart
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/drawing"
-	"goffice/schema/soo/dml"
-	crt "goffice/schema/soo/dml/chart"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/drawing"
+	"github.com/dhx007/goffice/schema/soo/dml"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
 )
 
 // PieOfPieChart is a Pie chart with an extra Pie chart.
@@ -29,11 +22,11 @@ func (c PieOfPieChart) X() *crt.CT_OfPieChart {
 // InitializeDefaults the bar chart to its defaults
 func (c PieOfPieChart) InitializeDefaults() {
 	c.x.VaryColors = crt.NewCT_Boolean()
-	c.x.VaryColors.ValAttr = unioffice.Bool(true)
+	c.x.VaryColors.ValAttr = goffice.Bool(true)
 	c.SetType(crt.ST_OfPieTypePie)
 	c.x.SecondPieSize = crt.NewCT_SecondPieSize()
 	c.x.SecondPieSize.ValAttr = &crt.ST_SecondPieSize{}
-	c.x.SecondPieSize.ValAttr.ST_SecondPieSizeUShort = unioffice.Uint16(75)
+	c.x.SecondPieSize.ValAttr.ST_SecondPieSizeUShort = goffice.Uint16(75)
 	cl := crt.NewCT_ChartLines()
 	cl.SpPr = dml.NewCT_ShapeProperties()
 	sp := drawing.MakeShapeProperties(cl.SpPr)

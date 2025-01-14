@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package common
 
 import (
 	"encoding/xml"
 	"time"
 
-	"goffice"
-	"goffice/schema/soo/pkg/metadata/core_properties"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/pkg/metadata/core_properties"
 )
 
 // CoreProperties contains document specific properties.
@@ -67,7 +60,7 @@ func (c CoreProperties) Author() string {
 // SetAuthor records the author of the document.
 func (c CoreProperties) SetAuthor(s string) {
 	if c.x.Creator == nil {
-		c.x.Creator = &unioffice.XSDAny{XMLName: xml.Name{Local: "dc:creator"}}
+		c.x.Creator = &goffice.XSDAny{XMLName: xml.Name{Local: "dc:creator"}}
 	}
 	c.x.Creator.Data = []byte(s)
 }
@@ -87,13 +80,13 @@ func (c CoreProperties) SetLastModifiedBy(s string) {
 
 // SetLanguage records the language of the document.
 func (c CoreProperties) SetLanguage(s string) {
-	c.x.Language = &unioffice.XSDAny{XMLName: xml.Name{Local: "dc:language"}}
+	c.x.Language = &goffice.XSDAny{XMLName: xml.Name{Local: "dc:language"}}
 	c.x.Language.Data = []byte(s)
 }
 
 const cpTimeFormatW3CDTF = "2006-01-02T15:04:05Z"
 
-func parseTime(x *unioffice.XSDAny) time.Time {
+func parseTime(x *goffice.XSDAny) time.Time {
 	if x == nil {
 		return time.Time{}
 	}
@@ -105,7 +98,7 @@ func parseTime(x *unioffice.XSDAny) time.Time {
 
 	t, err := time.Parse(cpTimeFormatW3CDTF, string(x.Data))
 	if err != nil {
-		unioffice.Log("error parsing time from %s: %s", string(x.Data), err)
+		goffice.Log("error parsing time from %s: %s", string(x.Data), err)
 	}
 	return t
 }
@@ -115,8 +108,8 @@ func (c CoreProperties) Created() time.Time {
 	return parseTime(c.x.Created)
 }
 
-func cpSetTime(t time.Time, name string) *unioffice.XSDAny {
-	x := &unioffice.XSDAny{XMLName: xml.Name{Local: name}}
+func cpSetTime(t time.Time, name string) *goffice.XSDAny {
+	x := &goffice.XSDAny{XMLName: xml.Name{Local: name}}
 	x.Attrs = append(x.Attrs,
 		xml.Attr{Name: xml.Name{Local: "xsi:type"}, Value: "dcterms:W3CDTF"})
 	x.Attrs = append(x.Attrs,
@@ -153,7 +146,7 @@ func (c CoreProperties) Title() string {
 // SetTitle records the title of the document.
 func (c CoreProperties) SetTitle(s string) {
 	if c.x.Title == nil {
-		c.x.Title = &unioffice.XSDAny{XMLName: xml.Name{Local: "dc:title"}}
+		c.x.Title = &goffice.XSDAny{XMLName: xml.Name{Local: "dc:title"}}
 	}
 	c.x.Title.Data = []byte(s)
 }
@@ -169,7 +162,7 @@ func (c CoreProperties) Description() string {
 // SetDescription records the description of the document.
 func (c CoreProperties) SetDescription(s string) {
 	if c.x.Description == nil {
-		c.x.Description = &unioffice.XSDAny{XMLName: xml.Name{Local: "dc:description"}}
+		c.x.Description = &goffice.XSDAny{XMLName: xml.Name{Local: "dc:description"}}
 	}
 	c.x.Description.Data = []byte(s)
 }

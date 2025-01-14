@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package chart
 
 import (
-	"goffice"
-	crt "goffice/schema/soo/dml/chart"
+	"github.com/dhx007/goffice"
+	crt "github.com/dhx007/goffice/schema/soo/dml/chart"
 )
 
 // StockChart is a 2D Stock chart.
@@ -29,7 +22,7 @@ func (c StockChart) InitializeDefaults() {
 	c.x.UpDownBars = crt.NewCT_UpDownBars()
 	c.x.UpDownBars.GapWidth = crt.NewCT_GapAmount()
 	c.x.UpDownBars.GapWidth.ValAttr = &crt.ST_GapAmount{}
-	c.x.UpDownBars.GapWidth.ValAttr.ST_GapAmountUShort = unioffice.Uint16(150)
+	c.x.UpDownBars.GapWidth.ValAttr.ST_GapAmountUShort = goffice.Uint16(150)
 	c.x.UpDownBars.UpBars = crt.NewCT_UpDownBar()
 	c.x.UpDownBars.DownBars = crt.NewCT_UpDownBar()
 }

@@ -1,11 +1,4 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
-package unioffice
+package goffice
 
 import (
 	"encoding/xml"
@@ -259,7 +252,7 @@ func (x *XSDAny) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	}
 	if includeIgnorable && len(attrsToIgnore) > 0 {
 		a.Attrs = append(a.Attrs, xml.Attr{
-			Name: xml.Name{Local: "mc:Ignorable"},
+			Name:  xml.Name{Local: "mc:Ignorable"},
 			Value: strings.Join(attrsToIgnore, " "),
 		})
 	}

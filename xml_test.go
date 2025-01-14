@@ -1,17 +1,10 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
-package unioffice_test
+package goffice_test
 
 import (
 	"encoding/xml"
 	"testing"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 )
 
 func TestAddPreserveSpaceAttr(t *testing.T) {
@@ -30,7 +23,7 @@ func TestAddPreserveSpaceAttr(t *testing.T) {
 	}
 	for _, tc := range td {
 		se := &xml.StartElement{}
-		unioffice.AddPreserveSpaceAttr(se, tc.Input)
+		goffice.AddPreserveSpaceAttr(se, tc.Input)
 		if tc.HasAttr && len(se.Attr) == 0 {
 			t.Errorf("expected a preserve space attribute for %s", tc.Input)
 		} else if !tc.HasAttr && len(se.Attr) != 0 {

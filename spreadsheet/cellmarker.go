@@ -1,16 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/measurement"
-	sd "goffice/schema/soo/dml/spreadsheetDrawing"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	sd "github.com/dhx007/goffice/schema/soo/dml/spreadsheetDrawing"
 )
 
 // CellMarker represents a cell position
@@ -45,7 +38,7 @@ func (c CellMarker) SetRow(row int32) {
 
 // SetColOffset sets a column offset in absolute distance.
 func (c CellMarker) SetColOffset(m measurement.Distance) {
-	c.x.ColOff.ST_CoordinateUnqualified = unioffice.Int64(int64(m / measurement.EMU))
+	c.x.ColOff.ST_CoordinateUnqualified = goffice.Int64(int64(m / measurement.EMU))
 }
 
 // ColOffset returns the offset from the row cell.
@@ -58,7 +51,7 @@ func (c CellMarker) ColOffset() measurement.Distance {
 
 // SetRowOffset sets a column offset in absolute distance.
 func (c CellMarker) SetRowOffset(m measurement.Distance) {
-	c.x.RowOff.ST_CoordinateUnqualified = unioffice.Int64(int64(m / measurement.EMU))
+	c.x.RowOff.ST_CoordinateUnqualified = goffice.Int64(int64(m / measurement.EMU))
 }
 
 // RowOffset returns the offset from the row cell.

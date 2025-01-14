@@ -1,15 +1,8 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package spreadsheet
 
 import (
-	"goffice"
-	"goffice/schema/soo/sml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/sml"
 )
 
 // SheetView is a view of a sheet. There is typically one per sheet, though more
@@ -39,13 +32,13 @@ func (s SheetView) ensurePane() {
 // SetXSplit sets the column split point
 func (s SheetView) SetXSplit(v float64) {
 	s.ensurePane()
-	s.x.Pane.XSplitAttr = unioffice.Float64(v)
+	s.x.Pane.XSplitAttr = goffice.Float64(v)
 }
 
 // SetYSplit sets the row split point
 func (s SheetView) SetYSplit(v float64) {
 	s.ensurePane()
-	s.x.Pane.YSplitAttr = unioffice.Float64(v)
+	s.x.Pane.YSplitAttr = goffice.Float64(v)
 
 }
 
@@ -65,7 +58,7 @@ func (s SheetView) SetZoom(pct uint32) {
 func (s SheetView) SetShowRuler(b bool) {
 	// default is true
 	if !b {
-		s.x.ShowRulerAttr = unioffice.Bool(false)
+		s.x.ShowRulerAttr = goffice.Bool(false)
 	} else {
 		s.x.ShowRulerAttr = nil
 	}

@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package common
 
 import (
 	"fmt"
 	"strings"
 
-	"goffice"
-	"goffice/schema/soo/pkg/relationships"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/schema/soo/pkg/relationships"
 )
 
 // Relationships represents a .rels file.
@@ -62,14 +55,14 @@ func (r Relationships) FindRIDForN(i int, t string) string {
 // AddAutoRelationship adds a relationship with an automatically generated
 // filename based off of the type. It should be preferred over AddRelationship
 // to ensure consistent filenames are maintained.
-func (r Relationships) AddAutoRelationship(dt unioffice.DocType, src string, idx int, ctype string) Relationship {
-	return r.AddRelationship(unioffice.RelativeFilename(dt, src, ctype, idx), ctype)
+func (r Relationships) AddAutoRelationship(dt goffice.DocType, src string, idx int, ctype string) Relationship {
+	return r.AddRelationship(goffice.RelativeFilename(dt, src, ctype, idx), ctype)
 }
 
 // AddRelationship adds a relationship.
 func (r Relationships) AddRelationship(target, ctype string) Relationship {
 	if !strings.HasPrefix(ctype, "http://") {
-		unioffice.Log("relationship type %s should start with 'http://'", ctype)
+		goffice.Log("relationship type %s should start with 'http://'", ctype)
 	}
 	rel := relationships.NewRelationship()
 	nextID := len(r.x.Relationship) + 1
@@ -137,7 +130,7 @@ type Hyperlink Relationship
 
 // AddHyperlink adds an external hyperlink relationship.
 func (r Relationships) AddHyperlink(target string) Hyperlink {
-	rel := r.AddRelationship(target, unioffice.HyperLinkType)
+	rel := r.AddRelationship(target, goffice.HyperLinkType)
 	rel.x.TargetModeAttr = relationships.ST_TargetModeExternal
 	return Hyperlink(rel)
 }

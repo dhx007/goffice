@@ -1,9 +1,9 @@
 package main
 
 import (
-	"goffice/color"
-	"goffice/document"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/document"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 func main() {

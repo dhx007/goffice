@@ -1,16 +1,9 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package document
 
 import (
-	"goffice"
-	"goffice/measurement"
-	"goffice/schema/soo/wml"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/measurement"
+	"github.com/dhx007/goffice/schema/soo/wml"
 )
 
 // TableStyleProperties are table properties as defined in a style.
@@ -41,7 +34,7 @@ func (t TableStyleProperties) SetTableIndent(ind measurement.Distance) {
 	t.x.TblInd.TypeAttr = wml.ST_TblWidthDxa
 	t.x.TblInd.WAttr = &wml.ST_MeasurementOrPercent{}
 	t.x.TblInd.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
-	t.x.TblInd.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(ind / measurement.Dxa))
+	t.x.TblInd.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(ind / measurement.Dxa))
 }
 
 // SetCellSpacingAuto sets the cell spacing within a table to automatic.
@@ -56,7 +49,7 @@ func (t TableStyleProperties) SetCellSpacingPercent(pct float64) {
 	t.x.TblCellSpacing.TypeAttr = wml.ST_TblWidthPct
 	t.x.TblCellSpacing.WAttr = &wml.ST_MeasurementOrPercent{}
 	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent = &wml.ST_DecimalNumberOrPercent{}
-	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = unioffice.Int64(int64(pct * 50))
+	t.x.TblCellSpacing.WAttr.ST_DecimalNumberOrPercent.ST_UnqualifiedPercentage = goffice.Int64(int64(pct * 50))
 }
 
 // Borders allows manipulation of the table borders.

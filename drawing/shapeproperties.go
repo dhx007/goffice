@@ -1,18 +1,11 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package drawing
 
 import (
-	"goffice"
-	"goffice/color"
-	"goffice/measurement"
+	"github.com/dhx007/goffice"
+	"github.com/dhx007/goffice/color"
+	"github.com/dhx007/goffice/measurement"
 
-	"goffice/schema/soo/dml"
+	"github.com/dhx007/goffice/schema/soo/dml"
 )
 
 type ShapeProperties struct {
@@ -92,8 +85,8 @@ func (s ShapeProperties) SetPosition(x, y measurement.Distance) {
 	if s.x.Xfrm.Off == nil {
 		s.x.Xfrm.Off = dml.NewCT_Point2D()
 	}
-	s.x.Xfrm.Off.XAttr.ST_CoordinateUnqualified = unioffice.Int64(int64(x / measurement.EMU))
-	s.x.Xfrm.Off.YAttr.ST_CoordinateUnqualified = unioffice.Int64(int64(y / measurement.EMU))
+	s.x.Xfrm.Off.XAttr.ST_CoordinateUnqualified = goffice.Int64(int64(x / measurement.EMU))
+	s.x.Xfrm.Off.YAttr.ST_CoordinateUnqualified = goffice.Int64(int64(y / measurement.EMU))
 }
 
 // SetGeometry sets the shape type of the shape
@@ -110,7 +103,7 @@ func (s ShapeProperties) SetFlipHorizontal(b bool) {
 	if !b {
 		s.x.Xfrm.FlipHAttr = nil
 	} else {
-		s.x.Xfrm.FlipHAttr = unioffice.Bool(true)
+		s.x.Xfrm.FlipHAttr = goffice.Bool(true)
 	}
 }
 
@@ -120,6 +113,6 @@ func (s ShapeProperties) SetFlipVertical(b bool) {
 	if !b {
 		s.x.Xfrm.FlipVAttr = nil
 	} else {
-		s.x.Xfrm.FlipVAttr = unioffice.Bool(true)
+		s.x.Xfrm.FlipVAttr = goffice.Bool(true)
 	}
 }

@@ -1,10 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package zippkg
 
 import (
@@ -18,10 +11,10 @@ import (
 	"sort"
 	"strings"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 
-	"goffice/algo"
-	"goffice/schema/soo/pkg/relationships"
+	"github.com/dhx007/goffice/algo"
+	"github.com/dhx007/goffice/schema/soo/pkg/relationships"
 )
 
 // RelationsPathFor returns the relations path for a given filename.
@@ -52,60 +45,60 @@ func Decode(f *zip.File, dest interface{}) error {
 		for i, r := range ds.Relationship {
 			switch r.TypeAttr {
 			// Common
-			case unioffice.OfficeDocumentTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.OfficeDocumentType
-			case unioffice.StylesTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.StylesType
-			case unioffice.ThemeTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.ThemeType
-			case unioffice.SettingsTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.SettingsType
-			case unioffice.ImageTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.ImageType
-			case unioffice.CommentsTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.CommentsType
-			case unioffice.ThumbnailTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.ThumbnailType
-			case unioffice.DrawingTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.DrawingType
-			case unioffice.ChartTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.ChartType
-			case unioffice.ExtendedPropertiesTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.ExtendedPropertiesType
-			case unioffice.CustomXMLTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.CustomXMLType
+			case goffice.OfficeDocumentTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.OfficeDocumentType
+			case goffice.StylesTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.StylesType
+			case goffice.ThemeTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.ThemeType
+			case goffice.SettingsTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.SettingsType
+			case goffice.ImageTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.ImageType
+			case goffice.CommentsTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.CommentsType
+			case goffice.ThumbnailTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.ThumbnailType
+			case goffice.DrawingTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.DrawingType
+			case goffice.ChartTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.ChartType
+			case goffice.ExtendedPropertiesTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.ExtendedPropertiesType
+			case goffice.CustomXMLTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.CustomXMLType
 
 			// SML
-			case unioffice.WorksheetTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.WorksheetType
-			case unioffice.SharedStringsTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.SharedStringsType
-			case unioffice.TableTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.TableType
+			case goffice.WorksheetTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.WorksheetType
+			case goffice.SharedStringsTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.SharedStringsType
+			case goffice.TableTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.TableType
 
 			// WML
-			case unioffice.HeaderTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.HeaderType
-			case unioffice.FooterTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.FooterType
-			case unioffice.NumberingTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.NumberingType
-			case unioffice.FontTableTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.FontTableType
-			case unioffice.WebSettingsTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.WebSettingsType
-			case unioffice.FootNotesTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.FootNotesType
-			case unioffice.EndNotesTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.EndNotesType
+			case goffice.HeaderTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.HeaderType
+			case goffice.FooterTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.FooterType
+			case goffice.NumberingTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.NumberingType
+			case goffice.FontTableTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.FontTableType
+			case goffice.WebSettingsTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.WebSettingsType
+			case goffice.FootNotesTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.FootNotesType
+			case goffice.EndNotesTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.EndNotesType
 
 			// PML
-			case unioffice.SlideTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.SlideType
+			case goffice.SlideTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.SlideType
 
 			// VML
-			case unioffice.VMLDrawingTypeStrict:
-				ds.Relationship[i].TypeAttr = unioffice.VMLDrawingType
+			case goffice.VMLDrawingTypeStrict:
+				ds.Relationship[i].TypeAttr = goffice.VMLDrawingType
 			}
 		}
 

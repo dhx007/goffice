@@ -1,10 +1,3 @@
-// Copyright 2017 FoxyUtils ehf. All rights reserved.
-//
-// Use of this source code is governed by the terms of the Affero GNU General
-// Public License version 3.0 as published by the Free Software Foundation and
-// appearing in the file LICENSE included in the packaging of this file. A
-// commercial license can be purchased on https://unidoc.io.
-
 package zippkg
 
 import (
@@ -13,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"goffice"
+	"github.com/dhx007/goffice"
 )
 
 // XMLHeader is a header that MarshalXML uses to prefix the XML files it creates.
@@ -21,13 +14,13 @@ const XMLHeader = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>` + "\
 
 var nl = []byte{'\r', '\n'}
 
-func MarshalXMLByTypeIndex(z *zip.Writer, dt unioffice.DocType, typ string, idx int, v interface{}) error {
-	fn := unioffice.AbsoluteFilename(dt, typ, idx)
+func MarshalXMLByTypeIndex(z *zip.Writer, dt goffice.DocType, typ string, idx int, v interface{}) error {
+	fn := goffice.AbsoluteFilename(dt, typ, idx)
 	return MarshalXML(z, fn, v)
 }
 
-func MarshalXMLByType(z *zip.Writer, dt unioffice.DocType, typ string, v interface{}) error {
-	fn := unioffice.AbsoluteFilename(dt, typ, 0)
+func MarshalXMLByType(z *zip.Writer, dt goffice.DocType, typ string, v interface{}) error {
+	fn := goffice.AbsoluteFilename(dt, typ, 0)
 	return MarshalXML(z, fn, v)
 }
 
